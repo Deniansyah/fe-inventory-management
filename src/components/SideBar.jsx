@@ -9,7 +9,7 @@ const SideBar = (props) => {
   const profile = "/profile"
 
   return (
-    <div className="flex flex-col bg-[#101540] w-24 h-screen text-white text-xs pt-5 gap-8">
+    <div className="flex flex-col bg-[#101540] basis-[7%] fixed mt-20 w-[7%] h-screen text-white text-xs pt-5 gap-8">
       <Link to="/home">
         <div
           id={home}
@@ -18,7 +18,7 @@ const SideBar = (props) => {
           }`}
         >
           <FiHome className="text-3xl" />
-          <p>Dashboard</p>
+          <p>Home</p>
         </div>
       </Link>
       <Link to="/product">

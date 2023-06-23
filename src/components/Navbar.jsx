@@ -3,7 +3,7 @@ import { FiMenu, FiSearch, FiChevronDown } from "react-icons/fi";
 
 const Navbar = () => {
   return (
-    <div className="flex m-4">
+    <div className="fixed right-0 left-0 z-50 flex p-4 bg-white">
       <div className="flex grow items-center">
         <FiMenu className="text-4xl ml-3" />
       </div>

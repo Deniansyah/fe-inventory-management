@@ -1,4 +1,5 @@
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
+import { useSelector } from "react-redux";
 import Landing from "../pages/Landing";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
@@ -29,9 +30,9 @@ const Router = () => {
       <Route path="/stock">
         <Stock />
       </Route>
-      <Route path="/users">
+      <PrivateRoute path="/users">
         <Users />
-      </Route>
+      </PrivateRoute>
       <Route path="/profile">
         <Profile />
       </Route>
@@ -41,5 +42,21 @@ const Router = () => {
     </Switch>
   );
 };
+
+const PrivateRoute = ({ children, ...rest }) => {
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
+  return(
+    <Route 
+      {...rest} 
+      render={() => {
+        return isAuthenticated ? (
+          children
+        ) : (
+          <Redirect to={{pathname : "/login"}} />
+        )
+      }} 
+    /> 
+  )
+}
 
 export default Router;
