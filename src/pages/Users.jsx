@@ -15,7 +15,7 @@ const Users = () => {
 
   useEffect(() => {
     dispatch(usersAction.getListUsersThunk())
-  })
+  },[])
 
   const data = [
     { id: 1, picture: profileDefault, nama: "John Doe", email: "johndoe@example.com", role: 2 },

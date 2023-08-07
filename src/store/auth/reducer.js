@@ -3,6 +3,7 @@ import axios from "axios";
 
 const initialState = {
   data: null,
+  role: null,
   isAuthenticated: false,
   isLoading: false,
   isError: false,
@@ -18,7 +19,7 @@ export const loginThunk = createAsyncThunk(
         password,
       });
       cb();
-      return response.data.result.data;
+      return response.data.result;
     } catch (error) {
       err(error);
       throw error.response.data.result.message;
@@ -28,31 +29,38 @@ export const loginThunk = createAsyncThunk(
 
 const authSlice = createSlice({
   name: "auth",
-  initialState : initialState,
-  reducers: {},
+  initialState: initialState,
+  reducers: {
+    logout: () => {
+      return initialState;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(loginThunk.pending, (state) => {
       return {
-      ...state,
-      isLoading: true, 
-      }; 
-    }),
-    builder.addCase(loginThunk.fulfilled, (state, action) => {
-      return {
         ...state,
-        isLoading: false,
-        data: action.payload,
-        isAuthenticated: true,
+        isLoading: true,
       };
     }),
-    builder.addCase(loginThunk.rejected, (state, action) => {
-      return {
-        ...state,
-        isLoading: false,
-        isError: true,
-        errorMessage: action.error.message,
-      }
-    })
+      builder.addCase(loginThunk.fulfilled, (state, action) => {
+        console.log(action.payload.role);
+        return {
+          ...state,
+          isLoading: false,
+          name: action.payload.name,
+          data: action.payload.data,
+          role: action.payload.role,
+          isAuthenticated: true,
+        };
+      }),
+      builder.addCase(loginThunk.rejected, (state, action) => {
+        return {
+          ...state,
+          isLoading: false,
+          isError: true,
+          errorMessage: action.error.message,
+        };
+      });
   },
 });
 
@@ -60,5 +68,5 @@ export const authAction = {
   ...authSlice.actions,
   loginThunk,
 }
-
+export const { logout } = authSlice.actions;
 export const authReducer = authSlice.reducer;

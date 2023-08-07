@@ -1,10 +1,13 @@
 import Navbar from "../components/Navbar";
 import SideBar from "../components/SideBar";
-
 import Banner from "../assets/image/home/banner.jpg"
+
+import { useSelector } from "react-redux";
 
 const Home = () => {
   const currentPath = window.location.pathname;
+  const auth = useSelector((state) => state.auth)
+  console.log(auth);
 
   return (
     <div className="bg-gray-200 relative">
@@ -17,7 +20,7 @@ const Home = () => {
         {/* Main Section */}
         <div className="ml-24 mt-20 p-10 basis-[93%]">
           <h1 className="text-3xl font-bold mb-5">
-            Selamat Datang, [ROLE] [NAME]
+            Selamat Datang, {auth.role === 1 ? "Admin" : "Operator" } {auth.name}
           </h1>
           <div className="bg-white w-full min-h-[70%] p-5 flex flex-col gap-6">
             <img src={Banner} alt="banner" />

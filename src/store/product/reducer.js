@@ -1,38 +1,39 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getListUsersThunk } from "./actions";
 import { initialState } from "./initialState";
+import { getProductThunk } from "./actions";
 
-const usersSlice = createSlice({
-  name: "users",
+
+const productSlice = createSlice({
+  name: "product",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getListUsersThunk.pending, (state) => {
+    builder.addCase(getProductThunk.pending, (state) => {
       return {
         ...state,
         isLoading: true,
       };
-    })
-    builder.addCase(getListUsersThunk.fulfilled, (state, action) => {
+    });
+    builder.addCase(getProductThunk.fulfilled, (state, action) => {
       return {
         ...state,
         isLoading: false,
         data: action.payload,
       };
-    })
-    builder.addCase(getListUsersThunk.rejected, (state, action) => {
+    });
+    builder.addCase(getProductThunk.rejected, (state, action) => {
       return {
         ...state,
         isLoading: false,
         isError: true,
         errorMessage: action.error.message,
       };
-    })
+    });
   },
 });
 
-export const usersAction = {
-  ...usersSlice.actions,
-  getListUsersThunk,
-}
-export const usersReducer = usersSlice.reducer;
+export const productAction = {
+  ...productSlice.actions,
+  getProductThunk,
+};
+export const productReducer = productSlice.reducer;

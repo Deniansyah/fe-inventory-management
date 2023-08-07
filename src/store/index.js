@@ -1,6 +1,7 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { authReducer } from "./auth/reducer"
 import { usersReducer } from "./users/reducer";
+import { productReducer } from "./product/reducer";
 
 import { 
   persistStore,
@@ -17,18 +18,19 @@ import  storage from "redux-persist/lib/storage";
 const reducers = combineReducers({
   auth: authReducer,
   users: usersReducer,
+  product: productReducer,
 })
 
 const persistConfig = {
   key: "data",
   storage,
-  blacklist: ["users"],
+  blacklist: ["users","product"],
 }
 
 const persistedReducer = persistReducer(persistConfig, reducers)
 
 export const store = configureStore({
-  reducer: { persistedReducer },
+  reducer: persistedReducer,
   middleware: (defaultMiddleware) => {
     return defaultMiddleware({
       serializableCheck: {

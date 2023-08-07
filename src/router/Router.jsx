@@ -5,6 +5,9 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Users from "../pages/Users";
 import Product from "../pages/Product";
+import AddProduct from "../pages/AddProduct";
+import ListProduct from "../pages/ListProduct";
+import EditProduct from "../pages/EditProduct";
 import Stock from "../pages/Stock"
 import Profile from "../pages/Profile";
 import NotFound from "../pages/NotFound";
@@ -15,27 +18,33 @@ const Router = () => {
       <Route exact path="/">
         <Landing />
       </Route>
-      <Route path="/home">
-        <Home />
-      </Route>
       <Route path="/login">
         <Login />
       </Route>
-      <Route path="/users">
-        <Users />
-      </Route>
-      <Route path="/product">
-        <Product />
-      </Route>
-      <Route path="/stock">
-        <Stock />
-      </Route>
-      <PrivateRoute path="/users">
-        <Users />
+      <PrivateRoute path="/home">
+        <Home />
       </PrivateRoute>
-      <Route path="/profile">
+      <OperatorRoute path="/product">
+        <Product />
+      </OperatorRoute>
+      <OperatorRoute path="/add-product">
+        <AddProduct />
+      </OperatorRoute>
+      <OperatorRoute path="/list-product">
+        <ListProduct />
+      </OperatorRoute>
+      <OperatorRoute path="/edit-product">
+        <EditProduct />
+      </OperatorRoute>
+      <OperatorRoute path="/stock">
+        <Stock />
+      </OperatorRoute>
+      <AdminRoute path="/users">
+        <Users />
+      </AdminRoute>
+      <PrivateRoute path="/profile">
         <Profile />
-      </Route>
+      </PrivateRoute>
       <Route>
         <NotFound />
       </Route>
@@ -50,9 +59,45 @@ const PrivateRoute = ({ children, ...rest }) => {
       {...rest} 
       render={() => {
         return isAuthenticated ? (
-          children
+          children                                                                  
         ) : (
-          <Redirect to={{pathname : "/login"}} />
+          <Redirect to={{ pathname: "/login" }} />
+        )
+      }} 
+    /> 
+  )
+}
+
+const AdminRoute = ({ children, ...rest }) => {
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
+  const role = useSelector((state) => state.auth.role)
+
+  return(
+    <Route 
+      {...rest} 
+      render={() => {
+        return isAuthenticated && role === 1 ? (
+          children                                                                  
+        ) : (
+          <Redirect to={{ pathname: "/login" }} />
+        )
+      }} 
+    /> 
+  )
+}
+
+const OperatorRoute = ({ children, ...rest }) => {
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated)
+  const role = useSelector((state) => state.auth.role)
+
+  return(
+    <Route 
+      {...rest} 
+      render={() => {
+        return isAuthenticated && role !== 1 ? (
+          children                                                                  
+        ) : (
+          <Redirect to={{ pathname: "/login" }} />
         )
       }} 
     /> 

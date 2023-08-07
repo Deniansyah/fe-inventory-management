@@ -1,7 +1,10 @@
 import profileDefault from "../assets/image/home/profileDefault.png";
 import { FiMenu, FiSearch, FiChevronDown } from "react-icons/fi";
+import { useSelector } from "react-redux";
 
 const Navbar = () => {
+  const { name } = useSelector((state) => state.auth);
+
   return (
     <div className="fixed right-0 left-0 z-50 flex p-4 bg-white">
       <div className="flex grow items-center">
@@ -18,7 +21,7 @@ const Navbar = () => {
             src={profileDefault}
             alt="profile-default"
           />
-          <p>Jhon Doe</p>
+          <p>{name}</p>
           <FiChevronDown className="text-lg" />
         </div>
       </div>
