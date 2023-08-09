@@ -2,7 +2,6 @@ import Navbar from "../components/Navbar";
 import SideBar from "../components/SideBar";
 import {
   FiList,
-  FiEdit,
   FiPlus
 } from "react-icons/fi";
 
@@ -26,10 +25,6 @@ const Product = () => {
             <Link to="/add-product" className="bg-white p-3 rounded-lg flex flex-col justify-center items-center"> 
               <FiPlus className="text-5xl" />
               <p className="font-bold">Add product</p>
-            </Link>
-            <Link to="/edit-product" className="bg-white p-3 rounded-lg flex flex-col justify-center items-center"> 
-              <FiEdit className="text-5xl" />
-              <p className="font-bold">Edit product</p>
             </Link>
           </div>
         </div>

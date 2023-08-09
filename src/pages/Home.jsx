@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 const Home = () => {
   const currentPath = window.location.pathname;
   const auth = useSelector((state) => state.auth)
-  console.log(auth);
 
   return (
     <div className="bg-gray-200 relative">

@@ -18,9 +18,9 @@ const Router = () => {
       <Route exact path="/">
         <Landing />
       </Route>
-      <Route path="/login">
+      <LoginSkip path="/login">
         <Login />
-      </Route>
+      </LoginSkip>
       <PrivateRoute path="/home">
         <Home />
       </PrivateRoute>
@@ -33,7 +33,7 @@ const Router = () => {
       <OperatorRoute path="/list-product">
         <ListProduct />
       </OperatorRoute>
-      <OperatorRoute path="/edit-product">
+      <OperatorRoute path="/edit-product/:id">
         <EditProduct />
       </OperatorRoute>
       <OperatorRoute path="/stock">
@@ -49,6 +49,22 @@ const Router = () => {
         <NotFound />
       </Route>
     </Switch>
+  );
+};
+
+const LoginSkip = ({ children, ...rest }) => {
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  return (
+    <Route
+      {...rest}
+      render={() => {
+        return isAuthenticated ? (
+          <Redirect to={{ pathname: "/home" }} />
+        ) : (
+          children
+        );
+      }}
+    />
   );
 };
 

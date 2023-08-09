@@ -1,5 +1,5 @@
 import profileDefault from "../assets/image/home/profileDefault.png";
-import { FiMenu, FiSearch, FiChevronDown } from "react-icons/fi";
+import { FiMenu, FiSearch } from "react-icons/fi";
 import { useSelector } from "react-redux";
 
 const Navbar = () => {
@@ -10,7 +10,7 @@ const Navbar = () => {
       <div className="flex grow items-center">
         <FiMenu className="text-4xl ml-3" />
       </div>
-      <div className="flex gap-5">
+      <div className="flex gap-5 mr-3">
         <div className="flex my-3 justify-center items-center gap-2">
           <input type="text" />
           <FiSearch className="text-2xl" />
@@ -22,7 +22,6 @@ const Navbar = () => {
             alt="profile-default"
           />
           <p>{name}</p>
-          <FiChevronDown className="text-lg" />
         </div>
       </div>
     </div>

@@ -43,7 +43,6 @@ const authSlice = createSlice({
       };
     }),
       builder.addCase(loginThunk.fulfilled, (state, action) => {
-        console.log(action.payload.role);
         return {
           ...state,
           isLoading: false,

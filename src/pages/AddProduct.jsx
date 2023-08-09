@@ -1,9 +1,7 @@
 import Navbar from "../components/Navbar";
 import SideBar from "../components/SideBar";
-
 import { useState } from "react";
 import { useSelector } from "react-redux";
-
 import http from "../helpers/http";
 
 const AddProduct = () => {
@@ -33,10 +31,13 @@ const AddProduct = () => {
   const addProduct = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append("picture", picture);
     formData.append("name", name);
     formData.append("price", price);
     formData.append("description", description);
+
+    if (picture) {
+    formData.append("picture", picture);
+    }
 
     try {
       const data = await http(token).post(

@@ -1,137 +1,157 @@
 import Navbar from "../components/Navbar";
 import SideBar from "../components/SideBar";
 import productDefault from "../assets/image/product/productDefault.jpg";
-import {
-  FiSearch,
-  FiChevronLeft,
-  FiChevronRight,
-  FiEdit3,
-  FiTrash2,
-} from "react-icons/fi";
-
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { productAction } from "../store/product/reducer";
+import http from "../helpers/http";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const EditProduct = () => {
-const currentPath = "/product";
-const dispatch = useDispatch();
-const product = useSelector((state) => state.product);
-const data = product.data.results;
+  const currentPath = "/product";
+  const token = useSelector((state) => state.auth.data);
 
-useEffect(() => {
-  dispatch(productAction.getProductThunk());
-}, []);
+  const [product, setProduct] = useState({})
+  const [picture, setPicture] = useState(null);
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [price, setPrice] = useState("");
 
-// Converter Rupiah
-const formatPrice = (price) => {
-  const formattedPrice = new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-  }).format(price);
+  const pathname = window.location.pathname;
+  const parts = pathname.split("/");
+  const id = parts[2];
 
-  return formattedPrice;
-};
+  useEffect(() => {
+    getProduct();
+  }, []);
+
+  const getProduct = async () => {
+    try {
+      const response = await http(token).get(`http://localhost:3001/product/${id}`);
+      setProduct(response.data.results);
+    } catch (error) {
+      setProduct({});
+    }
+  };
+
+  const handlePictureChange = (event) => {
+    setPicture(event.target.files[0]);
+  };
+
+  const handleNameChange = (event) => {
+    setProduct(event.target.value);
+    setName(event.target.value);
+  };
+
+  const handlePriceChange = (event) => {
+    setProduct(event.target.value);
+    setPrice(event.target.value);
+  };
+
+  const handleDescriptionChange = (event) => {
+    setProduct(event.target.value);
+    setDescription(event.target.value);
+  };
+
+  const updateProduct = async (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append("picture", picture);
+    formData.append("name", name);
+    formData.append("price", price);
+    formData.append("description", description);
+
+    try {
+      const data = await http(token).patch(
+        `http://localhost:3001/product/${id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      alert("Edit product succes");
+      console.log(data);
+    } catch (err) {
+      alert(err.message);
+      console.log(err);
+      throw err;
+    }
+  };
 
   return (
-    <div className=" bg-gray-200 relative">
+    <div className=" bg-gray-200 h-screen relative">
+      {/* navbar */}
       <Navbar />
+      {/* main section */}
       <div className="flex">
+        {/* side navbar */}
         <SideBar path={currentPath} />
+        {/* Main Section */}
         <div className="ml-24 mt-16 w-full p-10">
           <h1 className="text-3xl font-bold mb-5">Edit Product</h1>
           <div className="bg-white w-full min-h-[70%] p-5 flex flex-col gap-6">
-            <div className="flex gap-5">
-              <div className="flex border-2 grow justify-center py-1 px-3 items-center gap-2">
-                <input
-                  className="focus:outline-none w-full border-2"
-                  type="text"
-                />
-                <select name="seachBy" id="seachBy">
-                  <option value="createdAt">Created At</option>
-                  <option value="name">Name</option>
-                </select>
-                <FiSearch className="text-2xl" />
+            <form onSubmit={updateProduct}>
+              <div className="flex gap-5">
+                <div className="flex flex-col gap-2 justify-center items-center">
+                  <img
+                    src={productDefault}
+                    alt="Name of Product"
+                    className="h-60 w-60"
+                  />
+                  <input
+                    type="file"
+                    name="picture"
+                    onChange={handlePictureChange}
+                    className="block w-1/2 text-sm text-slate-500 file:mr-2 file:py-2 file:px-2 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-[#101540] hover:file:bg-violet-100"
+                  />
+                </div>
+                <div className="flex flex-col gap-3 justify-center mt-3">
+                  <div>
+                    <p>Name Product :</p>
+                    <input
+                      className="focus:outline-none w-64 p-2 border-2 border-black rounded-sm"
+                      name="name"
+                      type="text"
+                      placeholder="Name of product"
+                      value={product.name}
+                      onChange={handleNameChange}
+                    />
+                  </div>
+                  <div>
+                    <p>Price :</p>
+                    <input
+                      className="focus:outline-none w-64 p-2 border-2 border-black rounded-sm"
+                      type="number"
+                      name="price"
+                      placeholder="Price"
+                      value={product.price}
+                      onChange={handlePriceChange}
+                    />
+                  </div>
+                  <div>
+                    <p>Description :</p>
+                    <textarea
+                      className="focus:outline-none p-2 border-2 border-black rounded-sm"
+                      name="description"
+                      id="description"
+                      placeholder="Description Product"
+                      cols="50"
+                      rows="5"
+                      value={product.description}
+                      onChange={handleDescriptionChange}
+                    ></textarea>
+                  </div>
+                </div>
               </div>
-              {/* sort */}
-              <div className="flex justify-center items-center border-2 py-1 px-3">
-                <select name="sortBy" id="sortBy">
-                  <option value="createdAt">Created At</option>
-                  <option value="name">Name</option>
-                </select>
-                <select name="sort" id="sort">
-                  <option value="asc">ASC</option>
-                  <option value="desc">DESC</option>
-                </select>
+              <div className="w-full flex justify-end">
+                <button
+                  type="submit"
+                  className="bg-[#101540] py-2 px-3 rounded-md text-white w-fit"
+                >
+                  Save Changes
+                </button>
               </div>
-            </div>
-            <p>Total Product : 5</p>
-            {/* table */}
-            <table className="min-w-full bg-white border border-gray-300">
-              <thead>
-                <tr>
-                  <th className="py-2 pl-5 bg-gray-100 border-b"></th>
-                  <th className="py-2 pl-5 bg-gray-100 border-b"></th>
-                  <td className="py-2 px-4 bg-gray-100 border-b font-bold">
-                    ID
-                  </td>
-                  <td className="py-2 px-4 bg-gray-100 border-b font-bold">
-                    Picture
-                  </td>
-                  <td className="py-2 px-4 bg-gray-100 border-b font-bold">
-                    Name
-                  </td>
-                  <td className="py-2 px-4 bg-gray-100 border-b font-bold">
-                    Description
-                  </td>
-                  <td className="py-2 px-4 bg-gray-100 border-b font-bold">
-                    Price
-                  </td>
-                  <td className="py-2 px-4 bg-gray-100 border-b font-bold">
-                    Stock
-                  </td>
-                </tr>
-              </thead>
-              <tbody>
-                {data?.map((item) => (
-                  <tr key={item.id}>
-                    <td className="py-2 pl-5 border-b text-center">
-                      <FiEdit3 />
-                    </td>
-                    <td className="py-2 pl-5 border-b text-center">
-                      <FiTrash2 />
-                    </td>
-                    <td className="py-2 px-4 border-b">{item.id}</td>
-                    <td className="py-2 px-4 border-b">
-                      <img
-                        src={
-                          item.picture === null ? productDefault : item.picture
-                        }
-                        alt={item.name}
-                        className="h-8 w-8"
-                      />
-                    </td>
-                    <td className="py-2 px-4 border-b">{item.name}</td>
-                    <td className="py-2 px-4 border-b">{item.description}</td>
-                    <td className="py-2 px-4 border-b">
-                      {formatPrice(item.price)}
-                    </td>
-                    <td className="py-2 px-4 border-b">{item.stock}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-            {/* next prev page */}
-            <div className="flex justify-between items-center gap-5 text-white">
-              {/* Primary Color : #101540 */}
-              <div className="bg-gray-500 p-3 rounded-md">
-                <FiChevronLeft className="text-3" />
-              </div>
-              <div className="bg-gray-500 p-3 rounded-md">Save Changes</div>
-              <div className="bg-gray-500 p-3 rounded-md">
-                <FiChevronRight className="text-3" />
-              </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>

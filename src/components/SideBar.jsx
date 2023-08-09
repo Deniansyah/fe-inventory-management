@@ -83,15 +83,12 @@ const SideBar = (props) => {
           <p>Account</p>
         </div>
       </Link>
-      <div className="fixed bottom-0 ml-5 mb-7" onClick={Logout}>
-        <div
-          // id={logout}
-          className={`flex flex-col justify-center items-center font-bold text-red-600`}
-        >
+      <button className="fixed bottom-0 ml-5 mb-7" onClick={Logout}>
+        <div className={`flex flex-col justify-center items-center font-bold text-red-600`} >
           <FiLogOut className="text-3xl" />
           <p>Log Out</p>
         </div>
-      </div>
+      </button>
     </div>
   );
 }

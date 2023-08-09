@@ -1,27 +1,45 @@
 import Navbar from "../components/Navbar";
 import SideBar from "../components/SideBar";
 import productDefault from "../assets/image/product/productDefault.jpg";
+import http from "../helpers/http";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { productAction } from "../store/product/reducer";
+import { Link } from "react-router-dom";
 import {
   FiSearch,
   FiChevronLeft,
   FiChevronRight,
-  FiEdit3,
   FiTrash2,
+  FiEdit3,
 } from "react-icons/fi";
-
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { productAction } from "../store/product/reducer";
 
 const ListProduct = () => {
   const currentPath = "/product";
   const dispatch = useDispatch();
+  const [del, setDel] = useState(false)
+  const token = useSelector((state) => state.auth.data);
+  // Mengambil data dari redux yg di dapat dari database
   const product = useSelector((state) => state.product);
   const data = product.data.results;
 
   useEffect(() => {
     dispatch(productAction.getProductThunk());
-  }, []);
+  }, [dispatch, del]);
+
+  const deleteProduct = async (id) => {
+    try {
+      const response = await http(token).delete(`http://localhost:3001/product/${id}`);
+      alert("delete product succes");
+      setDel(true)
+      setDel(false)
+      console.log(response);
+    } catch (err) {
+      alert(err.message);
+      console.log(err);
+      throw err;
+    }
+  }
 
   // Converter Rupiah
   const formatPrice = (price) => {
@@ -65,7 +83,7 @@ const ListProduct = () => {
                 </select>
               </div>
             </div>
-            <p>Total Product : 5</p>
+            <p>Total Product : {product?.data?.pageInfo?.totalData}</p>
             {/* table */}
             <table className="min-w-full bg-white border border-gray-300">
               <thead>
@@ -95,11 +113,15 @@ const ListProduct = () => {
               <tbody>
                 {data?.map((item) => (
                   <tr key={item.id}>
-                    <td className="py-2 pl-5 border-b text-center">
-                      <FiEdit3 />
+                    <td className="py-2 pl-5 border-b text-center text-green-500">
+                      <Link to={"/edit-product/" + item.id}>
+                        <FiEdit3 className="text-xl" />
+                      </Link>
                     </td>
-                    <td className="py-2 pl-5 border-b text-center">
-                      <FiTrash2 />
+                    <td className="py-2 pl-5 border-b text-center text-red-500">
+                      <button onClick={() => deleteProduct(item.id)}>
+                        <FiTrash2 className="text-xl" />
+                      </button>
                     </td>
                     <td className="py-2 px-4 border-b">{item.id}</td>
                     <td className="py-2 px-4 border-b">
@@ -127,7 +149,6 @@ const ListProduct = () => {
               <div className="bg-gray-500 p-3 rounded-md">
                 <FiChevronLeft className="text-3" />
               </div>
-              <div className="bg-gray-500 p-3 rounded-md">Save Changes</div>
               <div className="bg-gray-500 p-3 rounded-md">
                 <FiChevronRight className="text-3" />
               </div>
