@@ -37,27 +37,30 @@ const EditProduct = () => {
   };
 
   const handleNameChange = (event) => {
-    setProduct(event.target.value);
+    setProduct(name);
     setName(event.target.value);
   };
 
   const handlePriceChange = (event) => {
-    setProduct(event.target.value);
+    setProduct(price);
     setPrice(event.target.value);
   };
 
   const handleDescriptionChange = (event) => {
-    setProduct(event.target.value);
+    setProduct(description);
     setDescription(event.target.value);
   };
 
   const updateProduct = async (event) => {
     event.preventDefault();
     const formData = new FormData();
-    formData.append("picture", picture);
     formData.append("name", name);
     formData.append("price", price);
     formData.append("description", description);
+
+    if (picture) {
+      formData.append("picture", picture);
+    }
 
     try {
       const data = await http(token).patch(

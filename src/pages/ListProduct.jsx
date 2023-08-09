@@ -25,6 +25,7 @@ const ListProduct = () => {
 
   useEffect(() => {
     dispatch(productAction.getProductThunk());
+    setDel(false)
   }, [dispatch, del]);
 
   const deleteProduct = async (id) => {
@@ -32,7 +33,6 @@ const ListProduct = () => {
       const response = await http(token).delete(`http://localhost:3001/product/${id}`);
       alert("delete product succes");
       setDel(true)
-      setDel(false)
       console.log(response);
     } catch (err) {
       alert(err.message);
@@ -52,7 +52,7 @@ const ListProduct = () => {
   };
 
   return (
-    <div className=" bg-gray-200 relative">
+    <div className=" bg-gray-200 h-screen relative">
       <Navbar />
       <div className="flex">
         <SideBar path={currentPath} />
