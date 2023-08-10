@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getListUsersThunk } from "./actions";
 import { initialState } from "./initialState";
+import { getListUsersThunk } from "./actions";
 
 const usersSlice = createSlice({
   name: "users",

@@ -4,6 +4,9 @@ import Landing from "../pages/Landing";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Users from "../pages/Users";
+import AddUser from "../pages/AddUser";
+import ListUsers from "../pages/ListUsers";
+import EditUser from "../pages/EditUser";
 import Product from "../pages/Product";
 import AddProduct from "../pages/AddProduct";
 import ListProduct from "../pages/ListProduct";
@@ -41,6 +44,15 @@ const Router = () => {
       </OperatorRoute>
       <AdminRoute path="/users">
         <Users />
+      </AdminRoute>
+      <AdminRoute path="/add-user">
+        <AddUser />
+      </AdminRoute>
+      <AdminRoute path="/edit-user">
+        <EditUser />
+      </AdminRoute>
+      <AdminRoute path="/list-users">
+        <ListUsers />
       </AdminRoute>
       <PrivateRoute path="/profile">
         <Profile />

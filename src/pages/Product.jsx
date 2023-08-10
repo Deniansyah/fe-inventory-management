@@ -1,11 +1,10 @@
 import Navbar from "../components/Navbar";
 import SideBar from "../components/SideBar";
+import { Link } from "react-router-dom";
 import {
   FiList,
   FiPlus
 } from "react-icons/fi";
-
-import { Link } from "react-router-dom";
 
 const Product = () => {
   const currentPath = window.location.pathname;
