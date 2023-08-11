@@ -21,7 +21,7 @@ const SideBar = (props) => {
   };
 
   return (
-    <div className="flex flex-col bg-[#101540] basis-[7%] fixed mt-20 w-[7%] h-screen text-white text-xs pt-5 gap-8">
+    <div className="flex flex-col bg-[#101540] basis-[7%] fixed mt-16 w-[7%] h-screen text-white text-xs pt-8 gap-8">
       <Link to="/home">
         <div
           id={home}

@@ -5,7 +5,7 @@ const Stock = () => {
   const currentPath = window.location.pathname;
 
   return (
-    <div className=" bg-gray-200 h-[680px] relative">
+    <div className=" bg-gray-200 h-screen relative">
       {/* navbar */}
       <Navbar />
       {/* main section */}

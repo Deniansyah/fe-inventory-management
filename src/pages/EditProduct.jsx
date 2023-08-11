@@ -2,12 +2,14 @@ import Navbar from "../components/Navbar";
 import SideBar from "../components/SideBar";
 import productDefault from "../assets/image/product/productDefault.jpg";
 import http from "../helpers/http";
+import { useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const EditProduct = () => {
   const currentPath = "/product";
   const token = useSelector((state) => state.auth.data);
+  const history = useHistory();
 
   const [product, setProduct] = useState({})
   const [picture, setPicture] = useState(null);
@@ -73,6 +75,7 @@ const EditProduct = () => {
         }
       );
       alert("Edit product succes");
+      history.push("/product");
       console.log(data);
     } catch (err) {
       alert(err.message);
@@ -97,9 +100,9 @@ const EditProduct = () => {
               <div className="flex gap-5">
                 <div className="flex flex-col gap-2 justify-center items-center">
                   <img
-                    src={productDefault}
+                    src={product.picture === null ? productDefault : product.picture}
                     alt={product.name}
-                    className="h-60 w-60"
+                    className="h-60 w-60 rounded-full"
                   />
                   <input
                     type="file"

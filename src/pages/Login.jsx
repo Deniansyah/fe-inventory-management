@@ -2,15 +2,25 @@ import icons_google from "../assets/image/login/icons_google.png";
 import cover from "../assets/image/landing/cover.svg";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { authAction } from "../store/auth/reducer";
 
 const Login = () => {
   const [showAlert, setShowAlert] = useState(false);
-  const [messageError, setMessageError] = useState("Please fill all form");
-
+  const isError = useSelector((state) => state.auth.isError)
+  const message = useSelector((state) => state.auth.errorMessage);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const history = useHistory();
   const dispatch = useDispatch();
+
+  const handleEmailChange = (event) => {
+    setEmail(event.target.value);
+  };
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value);
+  };
 
   const loginRequest = (e) => {
     e.preventDefault();
@@ -24,12 +34,14 @@ const Login = () => {
         history.push("/home")
       };
 
-      const err = (error) => {
-        const errMessage = error.response.data.result.message;
-        setMessageError(errMessage);
-      };
+      if (isError) {
+        setShowAlert(true)
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 3000);
+      }
 
-      dispatch(authAction.loginThunk({ email, password, cb, err }));
+      dispatch(authAction.loginThunk({ email, password, cb}));
     }
   };
 
@@ -40,13 +52,13 @@ const Login = () => {
           <div className="w-7 h-7 bg-[#FBB040] mb-5"></div>
           <h1 className="text-2xl font-semibold mb-5 text-white">Login</h1>
           <p className="text-white">See your growth and get support!</p>
-          <div className="border border-white p-2 rounded-full my-5 flex justify-center items-center gap-2">
+          <button className="border border-white p-2 rounded-full my-5 flex justify-center items-center gap-2 w-full cursor-not-allowed">
             <p className="text-white">Sign in with google</p>
             <img src={icons_google} alt="logo-google" />
-          </div>
+          </button>
           {showAlert && (
-            <div className="bg-red-300 border border-red-600  rounded px-5 py-3 text-center">
-              <span>{messageError}</span>
+            <div className="bg-red-300 border border-red-600  rounded px-5 py-3 mb-3 text-center">
+              <span>{message}</span>
             </div>
           )}
           <form onSubmit={loginRequest} className="flex flex-col gap-5">
@@ -57,6 +69,7 @@ const Login = () => {
                 type="email"
                 name="email"
                 placeholder="Enter your email"
+                onChange={handleEmailChange}
               />
             </div>
             <div className="flex flex-col">
@@ -66,33 +79,31 @@ const Login = () => {
                 type="password"
                 name="password"
                 placeholder="minimum 8 characters"
+                onChange={handlePasswordChange}
               />
             </div>
-            <div className="flex justify-between">
-              <div className="flex gap-1">
-                <input
-                  className="w-10"
-                  type="checkbox"
-                  name="remember"
-                  id="remember"
-                />
-                <span className="text-white">Remember me</span>
-              </div>
-              <div>
-                <p className="text-white">Forgot password?</p>
-              </div>
+            <div className="flex gap-1">
+              <input
+                className="w-10"
+                type="checkbox"
+                name="remember"
+                id="remember"
+              />
+              <span className="text-white">Remember me</span>
             </div>
             <button
+              disabled={password.trim() === "" || email.trim() === ""}
+              className={
+                password.trim() === ""
+                  ? "bg-gray-500 p-3 rounded-md text-white cursor-not-allowed"
+                  : "bg-[#101540] p-3 rounded-md text-white"
+              }
               type="submit"
-              className="bg-[#101540] text-white p-3 rounded-2xl"
+              // className="bg-[#101540] text-white p-3 rounded-2xl"
             >
               Login
             </button>
           </form>
-          <p className="mt-5 font-semibold text-white">
-            Not regestered yet?{" "}
-            <span className="text-[#101540]">Create a new account</span>
-          </p>
         </div>
       </div>
       <div className="basis-3/5">

@@ -2,12 +2,15 @@ import Navbar from "../components/Navbar";
 import SideBar from "../components/SideBar";
 import profileDefault from "../assets/image/users/ProfileDefault.png";
 import http from "../helpers/http";
+import { useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 
 const EditUser = () => {
   const currentPath = "/users";
   const token = useSelector((state) => state.auth.data);
+  const history = useHistory();
+
   const [user, setUser] = useState({});
   const [picture, setPicture] = useState(null);
   const [name, setName] = useState("");
@@ -81,6 +84,7 @@ const EditUser = () => {
         }
       );
       alert("Edit user succes");
+      history.push("/users");
       console.log(data);
     } catch (err) {
       alert(err.message);
@@ -105,9 +109,9 @@ const EditUser = () => {
               <div className="flex gap-5">
                 <div className="flex flex-col gap-2 justify-center items-center">
                   <img
-                    src={profileDefault}
+                    src={user.picture === null ? profileDefault : user.picture}
                     alt={user.name}
-                    className="h-60 w-60"
+                    className="h-60 w-60 rounded-full"
                   />
                   <input
                     type="file"

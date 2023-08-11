@@ -1,12 +1,15 @@
 import Navbar from "../components/Navbar";
 import SideBar from "../components/SideBar";
+import http from "../helpers/http";
+import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import http from "../helpers/http";
 
 const AddUser = () => {
   const currentPath = "/users";
   const token = useSelector((state) => state.auth.data);
+  const history = useHistory();
+
   const [picture, setPicture] = useState(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -56,6 +59,7 @@ const AddUser = () => {
         }
       );
       alert("add user succes");
+      history.push("/users");
       console.log(data);
     } catch (err) {
       alert(err.message);

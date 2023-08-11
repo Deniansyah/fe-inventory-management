@@ -5,11 +5,9 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import Users from "../pages/Users";
 import AddUser from "../pages/AddUser";
-import ListUsers from "../pages/ListUsers";
 import EditUser from "../pages/EditUser";
 import Product from "../pages/Product";
 import AddProduct from "../pages/AddProduct";
-import ListProduct from "../pages/ListProduct";
 import EditProduct from "../pages/EditProduct";
 import Stock from "../pages/Stock"
 import Profile from "../pages/Profile";
@@ -33,9 +31,6 @@ const Router = () => {
       <OperatorRoute path="/add-product">
         <AddProduct />
       </OperatorRoute>
-      <OperatorRoute path="/list-product">
-        <ListProduct />
-      </OperatorRoute>
       <OperatorRoute path="/edit-product/:id">
         <EditProduct />
       </OperatorRoute>
@@ -50,9 +45,6 @@ const Router = () => {
       </AdminRoute>
       <AdminRoute path="/edit-user">
         <EditUser />
-      </AdminRoute>
-      <AdminRoute path="/list-users">
-        <ListUsers />
       </AdminRoute>
       <PrivateRoute path="/profile">
         <Profile />

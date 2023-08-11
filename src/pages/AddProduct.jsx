@@ -1,12 +1,17 @@
 import Navbar from "../components/Navbar";
 import SideBar from "../components/SideBar";
+import LoadingSpinner from "../components/LoadingSpinner"
+import http from "../helpers/http";
+import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import http from "../helpers/http";
 
 const AddProduct = () => {
   const currentPath = "/product";
   const token = useSelector((state) => state.auth.data);
+  const isLoading = useSelector((state) => state.product.isLoading)
+  const history = useHistory();
+  
   const [picture, setPicture] = useState(null);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -50,6 +55,7 @@ const AddProduct = () => {
         }
       );
       alert("add product succes");
+      history.push("/product")
       console.log(data);
     } catch (err) {
       alert(err.message);
@@ -145,6 +151,7 @@ const AddProduct = () => {
           </div>
         </div>
       </div>
+      {isLoading ? <LoadingSpinner /> : null}
     </div>
   );
 }

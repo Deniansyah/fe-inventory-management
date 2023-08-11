@@ -12,7 +12,7 @@ const initialState = {
 
 export const loginThunk = createAsyncThunk(
   "login/request",
-  async ({ email, password, cb, err }) => {
+  async ({ email, password, cb }) => {
     try {
       const response = await axios.post("http://localhost:3001/auth/login", {
         email,
@@ -21,7 +21,6 @@ export const loginThunk = createAsyncThunk(
       cb();
       return response.data.result;
     } catch (error) {
-      err(error);
       throw error.response.data.result.message;
     }
   }
