@@ -12,6 +12,7 @@ import {
   FiChevronLeft,
   FiChevronRight,
   FiChevronDown,
+  FiChevronUp,
   FiTrash2,
   FiEdit3,
 } from "react-icons/fi";
@@ -21,14 +22,35 @@ const Users = () => {
   const dispatch = useDispatch()
   const [del, setDel] = useState(false);
   const token = useSelector((state) => state.auth.data);
+  const [query, setQuery] = useState({
+    page: 1,
+    limit: 5,
+    searchBy: "name",
+    search: "",
+    sortBy: "createdAt",
+    sort: "ASC",
+    role: null,
+  });
+
   // Mengambil data dari redux yg di dapat dari database
   const users = useSelector((state) => state.users);
   const data = users.data.results;
 
   useEffect(() => {
-    dispatch(usersAction.getListUsersThunk())
+    dispatch(usersAction.getListUsersThunk(query))
     setDel(false);
-  },[dispatch, del])
+  },[dispatch, del, query])
+
+  const handleSearchChange = (event) => {
+    setQuery((prevData) => ({
+      ...prevData,
+      search: event.target.value,
+    }));
+    setQuery((prevData) => ({
+      ...prevData,
+      page: 1,
+    }));
+  };
 
   const deleteUser = async (id) => {
     try {
@@ -43,6 +65,155 @@ const Users = () => {
       console.log(err);
       throw err;
     }
+  };
+
+  const sortSearch = (value) => {
+    if (value === "name") {
+      setQuery((prevData) => ({
+        ...prevData,
+        searchBy: "name",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+    if (value === "email") {
+      setQuery((prevData) => ({
+        ...prevData,
+        searchBy: "email",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+  };
+
+  const sortBy = (value) => {
+    if (value === "name") {
+      setQuery((prevData) => ({
+        ...prevData,
+        sortBy: "name",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+    if (value === "createdAt") {
+      setQuery((prevData) => ({
+        ...prevData,
+        sortBy: "createdAt",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+  };
+
+  const role = (value) => {
+    if (value === "1") {
+      setQuery((prevData) => ({
+        ...prevData,
+        role: "1",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+    if (value === "2") {
+      setQuery((prevData) => ({
+        ...prevData,
+        role: "2",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+  };
+
+  const sort = (value) => {
+    if (value === "ASC") {
+      setQuery((prevData) => ({
+        ...prevData,
+        sort: "ASC",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+    if (value === "DESC") {
+      setQuery((prevData) => ({
+        ...prevData,
+        sort: "DESC",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+  };
+
+  const limit = (value) => {
+    if (value === "5") {
+      setQuery((prevData) => ({
+        ...prevData,
+        limit: "5",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+    if (value === "10") {
+      setQuery((prevData) => ({
+        ...prevData,
+        limit: "10",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+    if (value === "20") {
+      setQuery((prevData) => ({
+        ...prevData,
+        limit: "20",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+    if (value === "30") {
+      setQuery((prevData) => ({
+        ...prevData,
+        limit: "30",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+  };
+
+  const prevPage = () => {
+    setQuery((prevData) => ({
+      ...prevData,
+      page: query.page - 1,
+    }));
+  };
+
+  const nextPage = () => {
+    setQuery((prevData) => ({
+      ...prevData,
+      page: query.page + 1,
+    }));
   };
 
   return (
@@ -68,8 +239,9 @@ const Users = () => {
               <div className="flex border-2 grow justify-center py-1 px-3 items-center gap-4 rounded-md">
                 <input
                   className="focus:outline-none w-full border-b-2 pb-1"
-                  placeholder="Search product"
+                  placeholder="Search user"
                   type="text"
+                  onChange={handleSearchChange}
                 />
                 <FiSearch className="text-2xl" />
                 <div className="h-full border-l border-1 my-1" />
@@ -78,9 +250,24 @@ const Users = () => {
                     className="focus:outline-none bg-[#101540] text-white p-2 my-1 rounded-md pr-8 pl-3"
                     name="seachBy"
                     id="seachBy"
+                    onClick={(e) => sortSearch(e.target.value)}
                   >
-                    <option value="createdAt">Created At</option>
                     <option value="name">Name</option>
+                    <option value="email">Email</option>
+                  </select>
+                  <FiChevronDown className="absolute right-2 top-4 text-white" />
+                </div>
+                <div className="h-full border-l border-1 my-1" />
+                <div className="relative">
+                  <select
+                    className="focus:outline-none bg-[#101540] text-white p-2 my-1 rounded-md pr-8 pl-3"
+                    name="role"
+                    id="role"
+                    onClick={(e) => role(e.target.value)}
+                  >
+                    <option className="hidden">Role</option>
+                    <option value="1">Admin</option>
+                    <option value="2">Operator</option>
                   </select>
                   <FiChevronDown className="absolute right-2 top-4 text-white" />
                 </div>
@@ -90,8 +277,9 @@ const Users = () => {
                 <div className="relative">
                   <select
                     className="focus:outline-none bg-[#101540] text-white p-2 my-1 rounded-md pr-8 pl-3"
-                    name="seachBy"
-                    id="seachBy"
+                    name="sortBy"
+                    id="sortBy"
+                    onClick={(e) => sortBy(e.target.value)}
                   >
                     <option value="createdAt">Created At</option>
                     <option value="name">Name</option>
@@ -103,9 +291,10 @@ const Users = () => {
                     className="focus:outline-none bg-[#101540] text-white p-2 my-1 rounded-md pr-8 pl-3"
                     name="sort"
                     id="sort"
+                    onClick={(e) => sort(e.target.value)}
                   >
-                    <option value="asc">ASC</option>
-                    <option value="desc">DESC</option>
+                    <option value="ASC">ASC</option>
+                    <option value="DESC">DESC</option>
                   </select>
                   <FiChevronDown className="absolute right-2 top-4 text-white" />
                 </div>
@@ -168,14 +357,53 @@ const Users = () => {
               </tbody>
             </table>
             {/* next prev page */}
-            <div className="flex justify-between items-center gap-5 text-white">
+            <div className="flex justify-between items-center gap-5">
               {/* Primary Color : #101540 */}
-              <div className="bg-gray-500 p-3 rounded-md">
+              <button
+                onClick={prevPage}
+                disabled={query.page === 1}
+                className={
+                  query.page === 1
+                    ? "bg-gray-500 p-3 rounded-md text-white"
+                    : "bg-[#101540] p-3 rounded-md text-white"
+                }
+              >
                 <FiChevronLeft className="text-3" />
+              </button>
+              <div className="flex justify-center items-center">
+                <p>Baris per halaman : </p>
+                <div className="relative ml-3">
+                  <select
+                    className="focus:outline-none border-black border p-1 my-1 rounded-md pr-7 pl-3"
+                    name="limit"
+                    id="limit"
+                    onClick={(e) => limit(e.target.value)}
+                  >
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="10">20</option>
+                    <option value="10">30</option>
+                  </select>
+                  <FiChevronUp className="absolute right-2 top-3" />
+                </div>
               </div>
-              <div className="bg-gray-500 p-3 rounded-md">
+              <div className="flex justify-center items-center gap-3">
+                <p>Halaman :</p>
+                <p>
+                  {query.page}/{users?.data?.pageInfo?.totalPage}
+                </p>
+              </div>
+              <button
+                onClick={nextPage}
+                disabled={query.page === users?.data?.pageInfo?.totalPage}
+                className={
+                  query.page === users?.data?.pageInfo?.totalPage
+                    ? "bg-gray-500 p-3 rounded-md text-white"
+                    : "bg-[#101540] p-3 rounded-md text-white"
+                }
+              >
                 <FiChevronRight className="text-3" />
-              </div>
+              </button>
             </div>
           </div>
         </div>

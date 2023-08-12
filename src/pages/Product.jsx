@@ -31,8 +31,6 @@ const Product = () => {
     sort: "ASC",
   });
 
-  // console.log(query);
-
   const product = useSelector((state) => state.product);
   const data = product.data.results;
 
