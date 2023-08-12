@@ -12,8 +12,6 @@ const Navbar = () => {
   const [user, setUser] = useState({});
   const isAdmin = useSelector((state) => state.auth.role)
 
-  console.log(user.picture);
-
   useEffect(() => {
     getUser();
   }, []);

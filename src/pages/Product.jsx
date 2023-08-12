@@ -12,6 +12,7 @@ import {
   FiChevronLeft,
   FiChevronRight,
   FiChevronDown,
+  FiChevronUp,
   FiTrash2,
   FiEdit3,
 } from "react-icons/fi";
@@ -21,14 +22,35 @@ const Product = () => {
   const token = useSelector((state) => state.auth.data);
   const dispatch = useDispatch();
   const [del, setDel] = useState(false);
+  const [query, setQuery] = useState({
+    page: 1,
+    limit: 5,
+    searchBy: "name",
+    search: "",
+    sortBy: "createdAt",
+    sort: "ASC",
+  });
+
+  // console.log(query);
 
   const product = useSelector((state) => state.product);
   const data = product.data.results;
 
   useEffect(() => {
-    dispatch(productAction.getProductThunk());
+    dispatch(productAction.getProductThunk(query));
     setDel(false);
-  }, [dispatch, del]);
+  }, [dispatch, del, query]);
+
+  const handleSearchChange = (event) => {
+    setQuery(prevData => ({
+      ...prevData,
+      search: event.target.value,
+    }))
+    setQuery(prevData => ({
+      ...prevData,
+      page: 1,
+    }))
+  };
 
   const deleteProduct = async (id) => {
     try {
@@ -45,6 +67,132 @@ const Product = () => {
     }
   };
 
+  const sortSearch = (value) => {
+    if (value === "name") {
+      setQuery(prevData => ({
+        ...prevData,
+        searchBy: "name",
+      }))
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+    if (value === "description") {
+      setQuery((prevData) => ({
+        ...prevData,
+        searchBy: "description",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+  };
+
+  const sortBy = (value) => {
+    if (value === "name") {
+      setQuery(prevData => ({
+        ...prevData,
+        sortBy: "name",
+      }))
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+    if (value === "createdAt") {
+      setQuery((prevData) => ({
+        ...prevData,
+        sortBy: "createdAt",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+  };
+
+  const sort = (value) => {
+    if (value === "ASC") {
+      setQuery(prevData => ({
+        ...prevData,
+        sort: "ASC",
+      }))
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+    if (value === "DESC") {
+      setQuery((prevData) => ({
+        ...prevData,
+        sort: "DESC",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+  };
+
+  const limit = (value) => {
+    if (value === "5") {
+      setQuery(prevData => ({
+        ...prevData,
+        limit: "5",
+      }))
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+    if (value === "10") {
+      setQuery((prevData) => ({
+        ...prevData,
+        limit: "10",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+    if (value === "20") {
+      setQuery((prevData) => ({
+        ...prevData,
+        limit: "20",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+    if (value === "30") {
+      setQuery((prevData) => ({
+        ...prevData,
+        limit: "30",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+  };
+
+  const prevPage = () => {
+    setQuery((prevData) => ({
+      ...prevData,
+      page: query.page - 1,
+    }));
+  }
+
+  const nextPage = () => {
+    setQuery((prevData) => ({
+      ...prevData,
+      page: query.page + 1,
+    }));
+  }
+
   // Converter Rupiah
   const formatPrice = (price) => {
     const formattedPrice = new Intl.NumberFormat("id-ID", {
@@ -56,7 +204,7 @@ const Product = () => {
   };
 
   return (
-    <div className=" bg-gray-200 relative">
+    <div className=" bg-gray-200 min-h-screen relative">
       <Navbar />
       <div className="flex">
         <SideBar path={currentPath} />
@@ -76,6 +224,7 @@ const Product = () => {
                   className="focus:outline-none w-full border-b-2 pb-1"
                   placeholder="Search product"
                   type="text"
+                  onChange={handleSearchChange}
                 />
                 <FiSearch className="text-2xl" />
                 <div className="h-full border-l border-1 my-1" />
@@ -84,9 +233,10 @@ const Product = () => {
                     className="focus:outline-none bg-[#101540] text-white p-2 my-1 rounded-md pr-8 pl-3"
                     name="seachBy"
                     id="seachBy"
+                    onClick={(e) => sortSearch(e.target.value)}
                   >
-                    <option value="createdAt">Created At</option>
                     <option value="name">Name</option>
+                    <option value="description">Description</option>
                   </select>
                   <FiChevronDown className="absolute right-2 top-4 text-white" />
                 </div>
@@ -96,8 +246,9 @@ const Product = () => {
                 <div className="relative">
                   <select
                     className="focus:outline-none bg-[#101540] text-white p-2 my-1 rounded-md pr-8 pl-3"
-                    name="seachBy"
-                    id="seachBy"
+                    name="sortBy"
+                    id="sortBy"
+                    onClick={(e) => sortBy(e.target.value)}
                   >
                     <option value="createdAt">Created At</option>
                     <option value="name">Name</option>
@@ -109,9 +260,10 @@ const Product = () => {
                     className="focus:outline-none bg-[#101540] text-white p-2 my-1 rounded-md pr-8 pl-3"
                     name="sort"
                     id="sort"
+                    onClick={(e) => sort(e.target.value)}
                   >
-                    <option value="asc">ASC</option>
-                    <option value="desc">DESC</option>
+                    <option value="ASC">ASC</option>
+                    <option value="DESC">DESC</option>
                   </select>
                   <FiChevronDown className="absolute right-2 top-4 text-white" />
                 </div>
@@ -178,14 +330,53 @@ const Product = () => {
               </tbody>
             </table>
             {/* next prev page */}
-            <div className="flex justify-between items-center gap-5 text-white">
+            <div className="flex justify-between items-center gap-5">
               {/* Primary Color : #101540 */}
-              <div className="bg-gray-500 p-3 rounded-md">
+              <button
+                onClick={prevPage}
+                disabled={query.page === 1}
+                className={
+                  query.page === 1
+                    ? "bg-gray-500 p-3 rounded-md text-white"
+                    : "bg-[#101540] p-3 rounded-md text-white"
+                }
+              >
                 <FiChevronLeft className="text-3" />
+              </button>
+              <div className="flex justify-center items-center">
+                <p>Baris per halaman : </p>
+                <div className="relative ml-3">
+                  <select
+                    className="focus:outline-none border-black border p-1 my-1 rounded-md pr-7 pl-3"
+                    name="limit"
+                    id="limit"
+                    onClick={(e) => limit(e.target.value)}
+                  >
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="10">20</option>
+                    <option value="10">30</option>
+                  </select>
+                  <FiChevronUp className="absolute right-2 top-3" />
+                </div>
               </div>
-              <div className="bg-gray-500 p-3 rounded-md">
+              <div className="flex justify-center items-center gap-3">
+                <p>Halaman :</p>
+                <p>
+                  {query.page}/{product?.data?.pageInfo?.totalPage}
+                </p>
+              </div>
+              <button
+                onClick={nextPage}
+                disabled={query.page === product?.data?.pageInfo?.totalPage}
+                className={
+                  query.page === product?.data?.pageInfo?.totalPage
+                    ? "bg-gray-500 p-3 rounded-md text-white"
+                    : "bg-[#101540] p-3 rounded-md text-white"
+                }
+              >
                 <FiChevronRight className="text-3" />
-              </div>
+              </button>
             </div>
           </div>
         </div>
