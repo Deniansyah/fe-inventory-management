@@ -2,6 +2,7 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { authReducer } from "./auth/reducer"
 import { usersReducer } from "./users/reducer";
 import { productReducer } from "./product/reducer";
+import { stockReducer } from "./stock/reducer";
 
 import { 
   persistStore,
@@ -19,12 +20,13 @@ const reducers = combineReducers({
   auth: authReducer,
   users: usersReducer,
   product: productReducer,
+  stock: stockReducer,
 })
 
 const persistConfig = {
   key: "data",
   storage,
-  blacklist: ["users","product"],
+  blacklist: ["users", "product", "stock"],
 }
 
 const persistedReducer = persistReducer(persistConfig, reducers)

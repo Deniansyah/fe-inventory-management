@@ -305,13 +305,11 @@ const Users = () => {
             <table className="min-w-full bg-white border border-gray-300">
               <thead>
                 <tr>
-                  <th className="py-2 pl-5 bg-gray-100 border-b"></th>
-                  <th className="py-2 pl-5 bg-gray-100 border-b"></th>
-                  <td className="py-2 px-4 bg-gray-100 border-b font-bold">
-                    ID
-                  </td>
-                  <td className="py-2 px-4 bg-gray-100 border-b font-bold">
-                    Picture
+                  <th className="py-2 pl-7 bg-gray-100 border-b"></th>
+                  <th className="py-2 pr-6 bg-gray-100 border-b"></th>
+                  <td className="py-2 bg-gray-100 border-b font-bold">ID</td>
+                  <td className="py-2 bg-gray-100 border-b font-bold">
+                    <div className="flex justify-center">Picture</div>
                   </td>
                   <td className="py-2 px-4 bg-gray-100 border-b font-bold">
                     Name
@@ -319,7 +317,7 @@ const Users = () => {
                   <td className="py-2 px-4 bg-gray-100 border-b font-bold">
                     Email
                   </td>
-                  <td className="py-2 px-4 bg-gray-100 border-b font-bold">
+                  <td className="py-2 bg-gray-100 border-b font-bold">
                     Role
                   </td>
                 </tr>
@@ -327,29 +325,33 @@ const Users = () => {
               <tbody>
                 {data?.map((item) => (
                   <tr key={item.id}>
-                    <td className="py-2 pl-5 border-b text-center text-green-500">
+                    <td className="py-2 pl-7 border-b text-center text-green-500">
                       <Link to={"/edit-user/" + item.id}>
                         <FiEdit3 className="text-xl" />
                       </Link>
                     </td>
-                    <td className="py-2 pl-5 border-b text-center text-red-500">
+                    <td className="py-2 pr-6 border-b text-center text-red-500">
                       <button onClick={() => deleteUser(item.id)}>
                         <FiTrash2 className="text-xl" />
                       </button>
                     </td>
-                    <td className="py-2 px-4 border-b">{item.id}</td>
-                    <td className="py-2 px-4 border-b">
-                      <img
-                        src={
-                          item.picture === null ? profileDefault : item.picture
-                        }
-                        alt={item.name}
-                        className="h-8 w-8 rounded-full"
-                      />
+                    <td className="py-2 border-b">{item.id}</td>
+                    <td className="py-2 border-b">
+                      <div className="flex justify-center">
+                        <img
+                          src={
+                            item.picture === null
+                              ? profileDefault
+                              : item.picture
+                          }
+                          alt={item.name}
+                          className="h-8 w-8 rounded-full"
+                        />
+                      </div>
                     </td>
                     <td className="py-2 px-4 border-b">{item.name}</td>
                     <td className="py-2 px-4 border-b">{item.email}</td>
-                    <td className="py-2 px-4 border-b">
+                    <td className="py-2 border-b">
                       {item.role === 1 ? "Admin" : "Operator"}
                     </td>
                   </tr>

@@ -10,6 +10,9 @@ import Product from "../pages/Product";
 import AddProduct from "../pages/AddProduct";
 import EditProduct from "../pages/EditProduct";
 import Stock from "../pages/Stock"
+import StockIn from "../pages/StockIn";
+import StockOut from "../pages/StockOut";
+import EditStock from "../pages/EditStock";
 import Profile from "../pages/Profile";
 import NotFound from "../pages/NotFound";
 
@@ -36,6 +39,15 @@ const Router = () => {
       </OperatorRoute>
       <OperatorRoute path="/stock">
         <Stock />
+      </OperatorRoute>
+      <OperatorRoute path="/stock-in">
+        <StockIn />
+      </OperatorRoute>
+      <OperatorRoute path="/stock-out">
+        <StockOut />
+      </OperatorRoute>
+      <OperatorRoute path="/edit-stock/:id">
+        <EditStock />
       </OperatorRoute>
       <AdminRoute path="/users">
         <Users />

@@ -1,7 +1,7 @@
+import SideBar from "../components/SideBar";
 import Navbar from "../components/Navbar";
 import productDefault from "../assets/image/product/productDefault.jpg";
 import http from "../helpers/http";
-import SideBar from "../components/SideBar";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { productAction } from "../store/product/reducer";
@@ -272,13 +272,11 @@ const Product = () => {
             <table className="min-w-full bg-white border border-gray-300">
               <thead>
                 <tr>
-                  <th className="py-2 pl-5 bg-gray-100 border-b"></th>
-                  <th className="py-2 pl-5 bg-gray-100 border-b"></th>
-                  <td className="py-2 px-4 bg-gray-100 border-b font-bold">
-                    ID
-                  </td>
-                  <td className="py-2 px-4 bg-gray-100 border-b font-bold">
-                    Picture
+                  <td className="py-2 pl-7 bg-gray-100 border-b"></td>
+                  <td className="py-2 pr-6 bg-gray-100 border-b"></td>
+                  <td className="py-2 bg-gray-100 border-b font-bold">ID</td>
+                  <td className="py-2 bg-gray-100 border-b font-bold">
+                    <div className="flex justify-center">Picture</div>
                   </td>
                   <td className="py-2 px-4 bg-gray-100 border-b font-bold">
                     Name
@@ -290,39 +288,51 @@ const Product = () => {
                     Price
                   </td>
                   <td className="py-2 px-4 bg-gray-100 border-b font-bold">
-                    Stock
+                    <div className="flex justify-center">Stock</div>
                   </td>
                 </tr>
               </thead>
               <tbody>
                 {data?.map((item) => (
                   <tr key={item.id}>
-                    <td className="py-2 pl-5 border-b text-center text-green-500">
+                    <td className="py-2 pl-7 border-b text-center text-green-500">
                       <Link to={"/edit-product/" + item.id}>
                         <FiEdit3 className="text-xl" />
                       </Link>
                     </td>
-                    <td className="py-2 pl-5 border-b text-center text-red-500">
+                    <td className="py-2 pr-6 border-b text-center text-red-500">
                       <button onClick={() => deleteProduct(item.id)}>
                         <FiTrash2 className="text-xl" />
                       </button>
                     </td>
-                    <td className="py-2 px-4 border-b">{item.id}</td>
-                    <td className="py-2 px-4 border-b">
-                      <img
-                        src={
-                          item.picture === null ? productDefault : item.picture
-                        }
-                        alt={item.name}
-                        className="h-8 w-8 rounded-full"
-                      />
+                    <td className="py-2 border-b">{item.id}</td>
+                    <td className="py-2 border-b">
+                      <div className="flex justify-center">
+                        <img
+                          src={
+                            item.picture === null
+                              ? productDefault
+                              : item.picture
+                          }
+                          alt={item.name}
+                          className="h-8 w-8 rounded-full"
+                        />
+                      </div>
                     </td>
                     <td className="py-2 px-4 border-b">{item.name}</td>
-                    <td className="py-2 px-4 border-b">{item.description}</td>
+                    <td className="py-2 px-4 border-b">
+                      <div className="w-28">
+                        <p className="truncate" title={item.description}>
+                          {item.description}
+                        </p>
+                      </div>
+                    </td>
                     <td className="py-2 px-4 border-b">
                       {formatPrice(item.price)}
                     </td>
-                    <td className="py-2 px-4 border-b">{item.stock}</td>
+                    <td className="py-2 px-4 border-b">
+                      <div className="flex justify-center">{item.stock}</div>
+                    </td>
                   </tr>
                 ))}
               </tbody>
