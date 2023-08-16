@@ -16,6 +16,7 @@ import {
   FiChevronRight,
   FiChevronDown,
   FiChevronUp,
+  FiEdit,
 } from "react-icons/fi";
 
 const Stock = () => {
@@ -201,6 +202,13 @@ const Stock = () => {
                 <FiMinusSquare className="text-2xl" />
                 <p>Add Stock Out</p>
               </Link>
+              <Link
+                to="/edit-stock"
+                className="bg-yellow-500 text-white pl-2 px-3 py-2 rounded-lg flex items-center gap-1 w-fit"
+              >
+                <FiEdit className="text-2xl" />
+                <p>Update Stock</p>
+              </Link>
             </div>
             <div className="flex gap-5">
               <div className="flex border-2 grow justify-center py-1 px-3 items-center gap-4 rounded-md">
@@ -291,12 +299,9 @@ const Stock = () => {
                     <td className="py-2 border-b">
                       <div
                         className={
-                          item.type === 1
-                            ? "text-green-500 font-bold"
-                            : "text-red-500 font-bold"
-                        }
+                          item.type === 1 ? "text-green-500 font-bold" : item.type === 2 ? "text-red-500 font-bold" : "text-yellow-500 font-bold"}
                       >
-                        {item.type === 1 ? "Stock in" : "Stock out"}
+                        {item.type === 1 ? "Stock in" : item.type === 2 ? "Stock out" : "Updated"}
                       </div>
                     </td>
                     <td className="py-2 border-b">

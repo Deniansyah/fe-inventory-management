@@ -46,7 +46,7 @@ const Router = () => {
       <OperatorRoute path="/stock-out">
         <StockOut />
       </OperatorRoute>
-      <OperatorRoute path="/edit-stock/:id">
+      <OperatorRoute path="/edit-stock">
         <EditStock />
       </OperatorRoute>
       <AdminRoute path="/users">
