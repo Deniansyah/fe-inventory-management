@@ -138,7 +138,7 @@ const Product = () => {
     if (value === "5") {
       setQuery(prevData => ({
         ...prevData,
-        limit: "5",
+        limit: 5,
       }))
       setQuery((prevData) => ({
         ...prevData,
@@ -148,7 +148,7 @@ const Product = () => {
     if (value === "10") {
       setQuery((prevData) => ({
         ...prevData,
-        limit: "10",
+        limit: 10,
       }));
       setQuery((prevData) => ({
         ...prevData,
@@ -158,7 +158,7 @@ const Product = () => {
     if (value === "20") {
       setQuery((prevData) => ({
         ...prevData,
-        limit: "20",
+        limit: 20,
       }));
       setQuery((prevData) => ({
         ...prevData,
@@ -168,7 +168,7 @@ const Product = () => {
     if (value === "30") {
       setQuery((prevData) => ({
         ...prevData,
-        limit: "30",
+        limit: 30,
       }));
       setQuery((prevData) => ({
         ...prevData,
@@ -362,8 +362,8 @@ const Product = () => {
                   >
                     <option value="5">5</option>
                     <option value="10">10</option>
-                    <option value="10">20</option>
-                    <option value="10">30</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
                   </select>
                   <FiChevronUp className="absolute right-2 top-3" />
                 </div>

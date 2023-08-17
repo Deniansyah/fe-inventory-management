@@ -383,8 +383,8 @@ const Users = () => {
                   >
                     <option value="5">5</option>
                     <option value="10">10</option>
-                    <option value="10">20</option>
-                    <option value="10">30</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
                   </select>
                   <FiChevronUp className="absolute right-2 top-3" />
                 </div>

@@ -4,7 +4,7 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 import {
   useEffect,
-  // useState,
+  useState,
 } from "react";
 import { stockAction } from "../store/stock/reducer";
 import { useDispatch, useSelector } from "react-redux";
@@ -22,158 +22,231 @@ import {
 const Stock = () => {
   const currentPath = window.location.pathname;
   const dispatch = useDispatch();
-  // const [query, setQuery] = useState({
-  //   page: 1,
-  //   limit: 5,
-  //   searchBy: "name",
-  //   search: "",
-  //   sortBy: "createdAt",
-  //   sort: "ASC",
-  // });
+  const [query, setQuery] = useState({
+    page: 1,
+    limit: 5,
+    cInitCol: "p",
+    searchBy: "name",
+    search: "",
+    cInitSort: "s",
+    sortStockBy: "date",
+    sort: "ASC",
+    type: null,
+  });
 
   const stock = useSelector((state) => state.stock);
   const data = stock.data.results;
 
   useEffect(() => {
-    dispatch(stockAction.getStockThunk());
-  }, [dispatch]);
+    dispatch(stockAction.getStockThunk(query));
+  }, [dispatch, query]);
 
-  // const handleSearchChange = (event) => {
-  //   setQuery((prevData) => ({
-  //     ...prevData,
-  //     search: event.target.value,
-  //   }));
-  //   setQuery((prevData) => ({
-  //     ...prevData,
-  //     page: 1,
-  //   }));
-  // };
+  const handleSearchChange = (event) => {
+    setQuery((prevData) => ({
+      ...prevData,
+      search: event.target.value,
+    }));
+    setQuery((prevData) => ({
+      ...prevData,
+      page: 1,
+    }));
+  };
 
-  // const sortSearch = (value) => {
-  //   if (value === "name") {
-  //     setQuery((prevData) => ({
-  //       ...prevData,
-  //       searchBy: "name",
-  //     }));
-  //     setQuery((prevData) => ({
-  //       ...prevData,
-  //       page: 1,
-  //     }));
-  //   }
-  //   if (value === "description") {
-  //     setQuery((prevData) => ({
-  //       ...prevData,
-  //       searchBy: "description",
-  //     }));
-  //     setQuery((prevData) => ({
-  //       ...prevData,
-  //       page: 1,
-  //     }));
-  //   }
-  // };
+  const sortSearch = (value) => {
+    if (value === "product") {
+      setQuery((prevData) => ({
+        ...prevData,
+        cInitCol: "p",
+        searchBy: "name",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+    if (value === "username") {
+      setQuery((prevData) => ({
+        ...prevData,
+        cInitCol: "u",
+        searchBy: "name",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+    if (value === "remark") {
+      setQuery((prevData) => ({
+        ...prevData,
+        cInitCol: "s",
+        searchBy: "remark",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+  };
 
-  // const sortBy = (value) => {
-  //   if (value === "name") {
-  //     setQuery((prevData) => ({
-  //       ...prevData,
-  //       sortBy: "name",
-  //     }));
-  //     setQuery((prevData) => ({
-  //       ...prevData,
-  //       page: 1,
-  //     }));
-  //   }
-  //   if (value === "createdAt") {
-  //     setQuery((prevData) => ({
-  //       ...prevData,
-  //       sortBy: "createdAt",
-  //     }));
-  //     setQuery((prevData) => ({
-  //       ...prevData,
-  //       page: 1,
-  //     }));
-  //   }
-  // };
+  const status = (value) => {
+    if (value === "1") {
+      setQuery((prevData) => ({
+        ...prevData,
+        type: "1",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+    if (value === "2") {
+      setQuery((prevData) => ({
+        ...prevData,
+        type: "2",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+    if (value === "3") {
+      setQuery((prevData) => ({
+        ...prevData,
+        type: "3",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+  };
 
-  // const sort = (value) => {
-  //   if (value === "ASC") {
-  //     setQuery((prevData) => ({
-  //       ...prevData,
-  //       sort: "ASC",
-  //     }));
-  //     setQuery((prevData) => ({
-  //       ...prevData,
-  //       page: 1,
-  //     }));
-  //   }
-  //   if (value === "DESC") {
-  //     setQuery((prevData) => ({
-  //       ...prevData,
-  //       sort: "DESC",
-  //     }));
-  //     setQuery((prevData) => ({
-  //       ...prevData,
-  //       page: 1,
-  //     }));
-  //   }
-  // };
+  const sortBy = (value) => {
+    if (value === "date") {
+      setQuery((prevData) => ({
+        ...prevData,
+        cInitSort: "s",
+        sortStockBy: "date",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+    if (value === "createdAt") {
+      setQuery((prevData) => ({
+        ...prevData,
+        cInitSort: "s",
+        sortStockBy: "createdAt",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+    if (value === "userName") {
+      setQuery((prevData) => ({
+        ...prevData,
+        cInitSort: "u",
+        sortStockBy: "name",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+    if (value === "productName") {
+      setQuery((prevData) => ({
+        ...prevData,
+        cInitSort: "p",
+        sortStockBy: "name",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+  };
 
-  // const limit = (value) => {
-  //   if (value === "5") {
-  //     setQuery((prevData) => ({
-  //       ...prevData,
-  //       limit: "5",
-  //     }));
-  //     setQuery((prevData) => ({
-  //       ...prevData,
-  //       page: 1,
-  //     }));
-  //   }
-  //   if (value === "10") {
-  //     setQuery((prevData) => ({
-  //       ...prevData,
-  //       limit: "10",
-  //     }));
-  //     setQuery((prevData) => ({
-  //       ...prevData,
-  //       page: 1,
-  //     }));
-  //   }
-  //   if (value === "20") {
-  //     setQuery((prevData) => ({
-  //       ...prevData,
-  //       limit: "20",
-  //     }));
-  //     setQuery((prevData) => ({
-  //       ...prevData,
-  //       page: 1,
-  //     }));
-  //   }
-  //   if (value === "30") {
-  //     setQuery((prevData) => ({
-  //       ...prevData,
-  //       limit: "30",
-  //     }));
-  //     setQuery((prevData) => ({
-  //       ...prevData,
-  //       page: 1,
-  //     }));
-  //   }
-  // };
+  const sort = (value) => {
+    if (value === "ASC") {
+      setQuery((prevData) => ({
+        ...prevData,
+        sort: "ASC",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+    if (value === "DESC") {
+      setQuery((prevData) => ({
+        ...prevData,
+        sort: "DESC",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+  };
 
-  // const prevPage = () => {
-  //   setQuery((prevData) => ({
-  //     ...prevData,
-  //     page: query.page - 1,
-  //   }));
-  // };
+  const limit = (value) => {
+    if (value === "5") {
+      setQuery((prevData) => ({
+        ...prevData,
+        limit: "5",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+    if (value === "10") {
+      setQuery((prevData) => ({
+        ...prevData,
+        limit: "10",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+    if (value === "20") {
+      setQuery((prevData) => ({
+        ...prevData,
+        limit: "20",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+    if (value === "30") {
+      setQuery((prevData) => ({
+        ...prevData,
+        limit: "30",
+      }));
+      setQuery((prevData) => ({
+        ...prevData,
+        page: 1,
+      }));
+    }
+  };
 
-  // const nextPage = () => {
-  //   setQuery((prevData) => ({
-  //     ...prevData,
-  //     page: query.page + 1,
-  //   }));
-  // };
+  const prevPage = () => {
+    setQuery((prevData) => ({
+      ...prevData,
+      page: query.page - 1,
+    }));
+  };
+
+  const nextPage = () => {
+    setQuery((prevData) => ({
+      ...prevData,
+      page: query.page + 1,
+    }));
+  };
 
   return (
     <div className=" bg-gray-200 relative">
@@ -214,9 +287,9 @@ const Stock = () => {
               <div className="flex border-2 grow justify-center py-1 px-3 items-center gap-4 rounded-md">
                 <input
                   className="focus:outline-none w-full border-b-2 pb-1"
-                  placeholder="Search product"
+                  placeholder="Search for product/pengubah/remark"
                   type="text"
-                  // onChange={handleSearchChange}
+                  onChange={handleSearchChange}
                 />
                 <FiSearch className="text-2xl" />
                 <div className="h-full border-l border-1 my-1" />
@@ -225,10 +298,26 @@ const Stock = () => {
                     className="focus:outline-none bg-[#101540] text-white p-2 my-1 rounded-md pr-8 pl-3"
                     name="seachBy"
                     id="seachBy"
-                    // onClick={(e) => sortSearch(e.target.value)}
+                    onClick={(e) => sortSearch(e.target.value)}
                   >
-                    <option value="name">Name</option>
-                    <option value="description">Description</option>
+                    <option value="product">Product</option>
+                    <option value="username">Pengubah</option>
+                    <option value="remark">Remark</option>
+                  </select>
+                  <FiChevronDown className="absolute right-2 top-4 text-white" />
+                </div>
+                <div className="h-full border-l border-1 my-1" />
+                <div className="relative">
+                  <select
+                    className="focus:outline-none bg-[#101540] text-white p-2 my-1 rounded-md pr-8 pl-3"
+                    name="role"
+                    id="role"
+                    onClick={(e) => status(e.target.value)}
+                  >
+                    <option className="hidden">Status</option>
+                    <option value="1">Stock in</option>
+                    <option value="2">Stock out</option>
+                    <option value="3">Updated</option>
                   </select>
                   <FiChevronDown className="absolute right-2 top-4 text-white" />
                 </div>
@@ -240,10 +329,12 @@ const Stock = () => {
                     className="focus:outline-none bg-[#101540] text-white p-2 my-1 rounded-md pr-8 pl-3"
                     name="sortBy"
                     id="sortBy"
-                    // onClick={(e) => sortBy(e.target.value)}
+                    onClick={(e) => sortBy(e.target.value)}
                   >
+                    <option value="date">Date</option>
                     <option value="createdAt">Created At</option>
-                    <option value="name">Name</option>
+                    <option value="userName">Pengubah</option>
+                    <option value="productName">Product</option>
                   </select>
                   <FiChevronDown className="absolute right-2 top-4 text-white" />
                 </div>
@@ -252,7 +343,7 @@ const Stock = () => {
                     className="focus:outline-none bg-[#101540] text-white p-2 my-1 rounded-md pr-8 pl-3"
                     name="sort"
                     id="sort"
-                    // onClick={(e) => sort(e.target.value)}
+                    onClick={(e) => sort(e.target.value)}
                   >
                     <option value="ASC">ASC</option>
                     <option value="DESC">DESC</option>
@@ -261,7 +352,7 @@ const Stock = () => {
                 </div>
               </div>
             </div>
-            <p>Total Product :{/* {product?.data?.pageInfo?.totalData} */}</p>
+            <p>Total Product : {stock?.data?.pageInfo?.totalData}</p>
             {/* table */}
             <table className="min-w-full bg-white border border-gray-300">
               <thead>
@@ -299,9 +390,18 @@ const Stock = () => {
                     <td className="py-2 border-b">
                       <div
                         className={
-                          item.type === 1 ? "text-green-500 font-bold" : item.type === 2 ? "text-red-500 font-bold" : "text-yellow-500 font-bold"}
+                          item.type === 1
+                            ? "text-green-500 font-bold"
+                            : item.type === 2
+                            ? "text-red-500 font-bold"
+                            : "text-yellow-500 font-bold"
+                        }
                       >
-                        {item.type === 1 ? "Stock in" : item.type === 2 ? "Stock out" : "Updated"}
+                        {item.type === 1
+                          ? "Stock in"
+                          : item.type === 2
+                          ? "Stock out"
+                          : "Updated"}
                       </div>
                     </td>
                     <td className="py-2 border-b">
@@ -322,13 +422,12 @@ const Stock = () => {
             <div className="flex justify-between items-center gap-5">
               {/* Primary Color : #101540 */}
               <button
-                // onClick={prevPage}
-                // disabled={query.page === 1}
+                onClick={prevPage}
+                disabled={query.page === 1}
                 className={
-                  "bg-gray-500 p-3 rounded-md text-white"
-                  // query.page === 1
-                  //   ? "bg-gray-500 p-3 rounded-md text-white"
-                  //   : "bg-[#101540] p-3 rounded-md text-white"
+                  query.page === 1
+                    ? "bg-gray-500 p-3 rounded-md text-white"
+                    : "bg-[#101540] p-3 rounded-md text-white"
                 }
               >
                 <FiChevronLeft className="text-3" />
@@ -340,28 +439,29 @@ const Stock = () => {
                     className="focus:outline-none border-black border p-1 my-1 rounded-md pr-7 pl-3"
                     name="limit"
                     id="limit"
-                    // onClick={(e) => limit(e.target.value)}
+                    onClick={(e) => limit(e.target.value)}
                   >
                     <option value="5">5</option>
                     <option value="10">10</option>
-                    <option value="10">20</option>
-                    <option value="10">30</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
                   </select>
                   <FiChevronUp className="absolute right-2 top-3" />
                 </div>
               </div>
               <div className="flex justify-center items-center gap-3">
                 <p>Halaman :</p>
-                <p>{/* {query.page}/{product?.data?.pageInfo?.totalPage} */}</p>
+                <p>
+                  {query.page}/{stock?.data?.pageInfo?.totalPage}
+                </p>
               </div>
               <button
-                // onClick={nextPage}
-                // disabled={query.page === product?.data?.pageInfo?.totalPage}
+                onClick={nextPage}
+                disabled={query.page === stock?.data?.pageInfo?.totalPage}
                 className={
-                  "bg-gray-500 p-3 rounded-md text-white"
-                  // query.page === product?.data?.pageInfo?.totalPage
-                  //   ? "bg-gray-500 p-3 rounded-md text-white"
-                  //   : "bg-[#101540] p-3 rounded-md text-white"
+                  query.page === stock?.data?.pageInfo?.totalPage
+                    ? "bg-gray-500 p-3 rounded-md text-white"
+                    : "bg-[#101540] p-3 rounded-md text-white"
                 }
               >
                 <FiChevronRight className="text-3" />
