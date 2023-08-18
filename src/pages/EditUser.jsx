@@ -122,7 +122,7 @@ const EditUser = () => {
                 </div>
                 <div className="flex flex-col gap-3 justify-center mt-3">
                   <div>
-                    <p>Name New User :</p>
+                    <p>Name User :</p>
                     <input
                       className="focus:outline-none w-64 p-2 border-2 border-black rounded-sm"
                       name="name"
