@@ -64,6 +64,8 @@ const AddProduct = () => {
     }
   };
 
+  const isButtonDisabled =
+    name === "" || price === "" || description === ""
 
   return (
     <div className=" bg-gray-200 h-screen relative">
@@ -136,16 +138,15 @@ const AddProduct = () => {
                 </tbody>
               </table>
               <button
+                disabled={isButtonDisabled}
                 type="submit"
-                className="bg-[#101540] mt-5 py-2 px-3 rounded-md text-white w-fit"
+                className={
+                  isButtonDisabled
+                    ? "bg-gray-500 py-2 px-3 rounded-md text-white w-fit mt-5"
+                    : "bg-[#101540] py-2 px-3 rounded-md text-white w-fit mt-5"
+                }
               >
                 Add New Product
-              </button>
-              <button
-                type="reset"
-                className="bg-red-500 mt-5 ml-5 py-2 px-3 rounded-md text-white w-fit"
-              >
-                Reset
               </button>
             </form>
           </div>

@@ -5,6 +5,9 @@ import http from "../helpers/http";
 import jwt_decode from "jwt-decode";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
+import {
+  FiEdit,
+} from "react-icons/fi";
 
 const Profile = () => {
   const currentPath = window.location.pathname;
@@ -16,6 +19,7 @@ const Profile = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [hidden, setHidden] = useState(false)
 
   useEffect(() => {
     getUser();
@@ -26,17 +30,14 @@ const Profile = () => {
   };
 
   const handleNameChange = (event) => {
-    setUser(name);
     setName(event.target.value);
   };
 
   const handleEmailChange = (event) => {
-    setUser(email);
     setEmail(event.target.value);
   };
 
   const handlePasswordChange = (event) => {
-    setUser(password);
     setPassword(event.target.value);
   };
 
@@ -99,20 +100,34 @@ const Profile = () => {
         <div className="ml-24 mt-16 w-full p-10">
           <h1 className="text-3xl font-bold mb-10">Profile</h1>
           <form onSubmit={updateUser}>
-            <div className="bg-white w-full p-8 min-h-[80%] flex flex-col gap-6">
+            <div className="bg-white w-full p-5 min-h-[80%] flex flex-col gap-6">
               <div className="flex gap-5">
                 <div className="flex flex-col gap-2 justify-center items-center">
-                  <img
-                    src={user.picture === null ? profileDefault : user.picture}
-                    alt={user.name}
-                    className="h-60 w-60 rounded-full border"
-                  />
-                  <input
-                    type="file"
-                    name="picture"
-                    onChange={handlePictureChange}
-                    className="block w-1/2 text-sm text-slate-500 file:mr-2 file:py-2 file:px-2 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-[#101540] hover:file:bg-violet-100"
-                  />
+                  {user.picture ? (
+                    <img
+                      src={user.picture}
+                      alt={user.name}
+                      className="h-60 w-60 rounded-full border"
+                    />
+                  ) : (
+                    <img
+                      src={profileDefault}
+                      alt={user.name}
+                      className="h-60 w-60 rounded-full border"
+                    />
+                  )}
+                  <span onClick={() => setHidden(true)} className="flex justify-center items-center gap-1">
+                    <FiEdit />
+                    <p>Edit Picture</p>
+                  </span>
+                  {hidden ? (
+                    <input
+                      type="file"
+                      name="picture"
+                      onChange={handlePictureChange}
+                      className="block w-[80%] text-sm text-slate-500 file:mr-2 file:py-2 file:px-2 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-[#101540] hover:file:bg-gray-300"
+                    />
+                  ) : null}
                 </div>
                 <div className="flex flex-col gap-3 justify-center mt-3">
                   <div>
@@ -122,7 +137,7 @@ const Profile = () => {
                       name="name"
                       type="text"
                       placeholder="Input new username"
-                      value={user.name}
+                      defaultValue={user.name}
                       onChange={handleNameChange}
                     />
                   </div>
@@ -133,7 +148,7 @@ const Profile = () => {
                       type="email"
                       name="email"
                       placeholder="Your email address"
-                      value={user.email}
+                      defaultValue={user.email}
                       onChange={handleEmailChange}
                       disabled="on"
                     />

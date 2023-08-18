@@ -5,6 +5,7 @@ import http from "../helpers/http";
 import { useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { FiEdit } from "react-icons/fi";
 
 const EditProduct = () => {
   const currentPath = "/product";
@@ -16,6 +17,7 @@ const EditProduct = () => {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
+  const [hidden, setHidden] = useState(false);
 
   const pathname = window.location.pathname;
   const parts = pathname.split("/");
@@ -39,17 +41,14 @@ const EditProduct = () => {
   };
 
   const handleNameChange = (event) => {
-    setProduct(name);
     setName(event.target.value);
   };
 
   const handlePriceChange = (event) => {
-    setProduct(price);
     setPrice(event.target.value);
   };
 
   const handleDescriptionChange = (event) => {
-    setProduct(description);
     setDescription(event.target.value);
   };
 
@@ -84,6 +83,8 @@ const EditProduct = () => {
     }
   };
 
+  const isButtonDisabled = name === "" || price === "" || description === ""
+
   return (
     <div className=" bg-gray-200 h-screen relative">
       {/* navbar */}
@@ -100,16 +101,29 @@ const EditProduct = () => {
               <div className="flex gap-5">
                 <div className="flex flex-col gap-2 justify-center items-center">
                   <img
-                    src={product.picture === null ? productDefault : product.picture}
+                    src={
+                      product.picture === null
+                        ? productDefault
+                        : product.picture
+                    }
                     alt={product.name}
                     className="h-60 w-60 rounded-full"
                   />
-                  <input
-                    type="file"
-                    name="picture"
-                    onChange={handlePictureChange}
-                    className="block w-1/2 text-sm text-slate-500 file:mr-2 file:py-2 file:px-2 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-[#101540] hover:file:bg-violet-100"
-                  />
+                  <span
+                    onClick={() => setHidden(true)}
+                    className="flex justify-center items-center gap-1"
+                  >
+                    <FiEdit />
+                    <p>Edit Picture</p>
+                  </span>
+                  {hidden ? (
+                    <input
+                      type="file"
+                      name="picture"
+                      onChange={handlePictureChange}
+                      className="block w-[80%] text-sm text-slate-500 file:mr-2 file:py-2 file:px-2 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-[#101540] hover:file:bg-gray-300"
+                    />
+                  ) : null}
                 </div>
                 <div className="flex flex-col gap-3 justify-center mt-3">
                   <div>
@@ -119,7 +133,7 @@ const EditProduct = () => {
                       name="name"
                       type="text"
                       placeholder={product.name}
-                      value={product.name}
+                      defaultValue={product.name}
                       onChange={handleNameChange}
                     />
                   </div>
@@ -130,7 +144,7 @@ const EditProduct = () => {
                       type="number"
                       name="price"
                       placeholder="Price"
-                      value={product.price}
+                      defaultValue={product.price}
                       onChange={handlePriceChange}
                     />
                   </div>
@@ -143,7 +157,7 @@ const EditProduct = () => {
                       placeholder="Description Product"
                       cols="50"
                       rows="5"
-                      value={product.description}
+                      defaultValue={product.description}
                       onChange={handleDescriptionChange}
                     ></textarea>
                   </div>
@@ -151,8 +165,13 @@ const EditProduct = () => {
               </div>
               <div className="w-full flex justify-end">
                 <button
+                  disabled={isButtonDisabled}
                   type="submit"
-                  className="bg-[#101540] py-2 px-3 rounded-md text-white w-fit"
+                  className={
+                    isButtonDisabled
+                      ? "bg-gray-500 py-2 px-3 rounded-md text-white w-fit mt-5"
+                      : "bg-[#101540] py-2 px-3 rounded-md text-white w-fit mt-5"
+                  }
                 >
                   Save Changes
                 </button>

@@ -82,15 +82,6 @@ const Login = () => {
                 onChange={handlePasswordChange}
               />
             </div>
-            <div className="flex gap-1">
-              <input
-                className="w-10"
-                type="checkbox"
-                name="remember"
-                id="remember"
-              />
-              <span className="text-white">Remember me</span>
-            </div>
             <button
               disabled={password.trim() === "" || email.trim() === ""}
               className={
