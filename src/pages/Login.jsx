@@ -47,8 +47,8 @@ const Login = () => {
 
   return (
     <div className="flex flex-row bg-gradient-to-b from-[#005EB8] to-indigo-500 min-h-screen">
-      <div className="basis-2/5">
-        <div className="m-5 ml-8">
+      <div className="w-screen md:basis-2/5">
+        <div className="m-5  md:ml-8">
           <div className="w-7 h-7 bg-[#FBB040] mb-5"></div>
           <h1 className="text-2xl font-semibold mb-5 text-white">Login</h1>
           <p className="text-white">See your growth and get support!</p>
@@ -97,9 +97,9 @@ const Login = () => {
           </form>
         </div>
       </div>
-      <div className="basis-3/5">
+      <div className="hidden md:block md:relative md:basis-3/5">
         <img
-          className="w-11/12 mt-20 ml-10"
+          className="absolute md:top-36 md:mr-3 lg:top-24 lg:p-10 xl:w-[80%] xl:right-0"
           src={cover}
           alt="vector-ilustration-inventory-management"
         />
