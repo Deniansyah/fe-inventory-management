@@ -51,7 +51,7 @@ const AddUser = () => {
 
     try {
       const data = await http(token).post(
-        `http://localhost:3001/users`,
+        `${process.env.REACT_APP_URL_BACKEND}/users`,
         formData,
         {
           headers: {

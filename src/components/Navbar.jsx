@@ -19,7 +19,7 @@ const Navbar = () => {
   const getUser = async () => {
     try {
       const response = await http(token).get(
-        `http://localhost:3001/${isAdmin === 1 ? "users" : "users-operator"}/${id}`
+        `${process.env.REACT_APP_URL_BACKEND}/${isAdmin === 1 ? "users" : "users-operator"}/${id}`
       );
       setUser(response.data.results);
     } catch (error) {

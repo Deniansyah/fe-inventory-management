@@ -6,7 +6,7 @@ const http = (token) => {
     headers.authorization = "Bearer " + token;
   }
   const instance = axios.create({
-    baseURL: "http://localhost:3001",
+    baseURL: process.env.REACT_APP_URL_BACKEND,
     headers,
   });
   return instance;

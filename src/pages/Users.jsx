@@ -55,7 +55,7 @@ const Users = () => {
   const deleteUser = async (id) => {
     try {
       const response = await http(token).delete(
-        `http://localhost:3001/users/${id}`
+        `${process.env.REACT_APP_URL_BACKEND}/users/${id}`
       );
       alert("delete user succes");
       setDel(true);

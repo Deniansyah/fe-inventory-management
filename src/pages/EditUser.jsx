@@ -32,7 +32,7 @@ const EditUser = () => {
   const getUser = async () => {
     try {
       const response = await http(token).get(
-        `http://localhost:3001/users/${id}`
+        `${process.env.REACT_APP_URL_BACKEND}/users/${id}`
       );
       setUser(response.data.results);
     } catch (error) {
@@ -74,7 +74,7 @@ const EditUser = () => {
 
     try {
       const data = await http(token).patch(
-        `http://localhost:3001/users/${id}`,
+        `${process.env.REACT_APP_URL_BACKEND}/users/${id}`,
         formData,
         {
           headers: {

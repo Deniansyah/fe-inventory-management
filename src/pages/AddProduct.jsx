@@ -46,11 +46,11 @@ const AddProduct = () => {
 
     try {
       const data = await http(token).post(
-        `http://localhost:3001/product`,
+        `${process.env.REACT_APP_URL_BACKEND}/product`,
         formData,
         {
           headers: {
-            'Content-Type': 'multipart/form-data',
+            "Content-Type": "multipart/form-data",
           },
         }
       );

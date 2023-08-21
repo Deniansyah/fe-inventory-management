@@ -14,10 +14,13 @@ export const loginThunk = createAsyncThunk(
   "login/request",
   async ({ email, password, cb }) => {
     try {
-      const response = await axios.post("http://localhost:3001/auth/login", {
-        email,
-        password,
-      });
+      const response = await axios.post(
+        `${process.env.REACT_APP_URL_BACKEND}/auth/login`,
+        {
+          email,
+          password,
+        }
+      );
       cb();
       return response.data.result;
     } catch (error) {

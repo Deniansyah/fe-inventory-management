@@ -44,7 +44,7 @@ const Profile = () => {
   const getUser = async () => {
     try {
       const response = await http(token).get(
-        `http://localhost:3001/${
+        `${process.env.REACT_APP_URL_BACKEND}/${
           isAdmin === 1 ? "users" : "users-operator"
         }/${id}`
       );
@@ -67,7 +67,7 @@ const Profile = () => {
 
     try {
       const data = await http(token).patch(
-        `http://localhost:3001/${
+        `${process.env.REACT_APP_URL_BACKEND}/${
           isAdmin === 1 ? "users" : "users-operator"
         }/${id}`,
         formData,

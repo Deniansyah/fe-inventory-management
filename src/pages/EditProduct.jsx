@@ -29,7 +29,9 @@ const EditProduct = () => {
 
   const getProduct = async () => {
     try {
-      const response = await http(token).get(`http://localhost:3001/product/${id}`);
+      const response = await http(token).get(
+        `${process.env.REACT_APP_URL_BACKEND}/product/${id}`
+      );
       setProduct(response.data.results);
     } catch (error) {
       setProduct({});
@@ -65,7 +67,7 @@ const EditProduct = () => {
 
     try {
       const data = await http(token).patch(
-        `http://localhost:3001/product/${id}`,
+        `${process.env.REACT_APP_URL_BACKEND}/product/${id}`,
         formData,
         {
           headers: {

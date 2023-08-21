@@ -78,7 +78,7 @@ const EditStock = () => {
 
     try {
       const data = await http(token).patch(
-        `http://localhost:3001/edit-stock/${idProduct}`,
+        `${process.env.REACT_APP_URL_BACKEND}/edit-stock/${idProduct}`,
         formData
       );
       alert("Add stock to product succes");
