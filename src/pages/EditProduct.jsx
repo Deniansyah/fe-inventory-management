@@ -83,8 +83,6 @@ const EditProduct = () => {
     }
   };
 
-  const isButtonDisabled = name === "" || price === "" || description === ""
-
   return (
     <div className=" bg-gray-200 h-screen relative">
       {/* navbar */}
@@ -111,7 +109,7 @@ const EditProduct = () => {
                   />
                   <span
                     onClick={() => setHidden(true)}
-                    className="flex justify-center items-center gap-1"
+                    className="flex justify-center items-center gap-1 cursor-pointer"
                   >
                     <FiEdit />
                     <p>Edit Picture</p>
@@ -165,13 +163,8 @@ const EditProduct = () => {
               </div>
               <div className="w-full flex justify-end">
                 <button
-                  disabled={isButtonDisabled}
                   type="submit"
-                  className={
-                    isButtonDisabled
-                      ? "bg-gray-500 py-2 px-3 rounded-md text-white w-fit mt-5"
-                      : "bg-[#101540] py-2 px-3 rounded-md text-white w-fit mt-5"
-                  }
+                  className="bg-[#101540] py-2 px-3 rounded-md text-white w-fit mt-5"
                 >
                   Save Changes
                 </button>

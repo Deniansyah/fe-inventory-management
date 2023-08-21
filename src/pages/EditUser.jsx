@@ -5,6 +5,8 @@ import http from "../helpers/http";
 import { useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
+import { FiChevronDown } from "react-icons/fi";
+import { FiEdit } from "react-icons/fi";
 
 const EditUser = () => {
   const currentPath = "/users";
@@ -17,6 +19,7 @@ const EditUser = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
+  const [hidden, setHidden] = useState(false);
 
   const pathname = window.location.pathname;
   const parts = pathname.split("/");
@@ -42,22 +45,18 @@ const EditUser = () => {
   };
 
   const handleNameChange = (event) => {
-    setUser(name);
     setName(event.target.value);
   };
 
   const handleRoleChange = (event) => {
-    setUser(role);
     setRole(event.target.value);
   };
 
   const handleEmailChange = (event) => {
-    setUser(email);
     setEmail(event.target.value);
   };
 
   const handlePasswordChange = (event) => {
-    setUser(password);
     setPassword(event.target.value);
   };
 
@@ -113,22 +112,31 @@ const EditUser = () => {
                     alt={user.name}
                     className="h-60 w-60 rounded-full"
                   />
-                  <input
-                    type="file"
-                    name="picture"
-                    onChange={handlePictureChange}
-                    className="block w-1/2 text-sm text-slate-500 file:mr-2 file:py-2 file:px-2 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-[#101540] hover:file:bg-violet-100"
-                  />
+                  <span
+                    onClick={() => setHidden(true)}
+                    className="flex justify-center items-center gap-1 cursor-pointer"
+                  >
+                    <FiEdit />
+                    <p>Edit Picture</p>
+                  </span>
+                  {hidden ? (
+                    <input
+                      type="file"
+                      name="picture"
+                      onChange={handlePictureChange}
+                      className="block w-[80%] text-sm text-slate-500 file:mr-2 file:py-2 file:px-2 file:rounded-md file:border-0 file:text-sm file:font-semibold file:bg-violet-50 file:text-[#101540] hover:file:bg-gray-300"
+                    />
+                  ) : null}
                 </div>
                 <div className="flex flex-col gap-3 justify-center mt-3">
                   <div>
-                    <p>Name User :</p>
+                    <p>Name :</p>
                     <input
-                      className="focus:outline-none w-64 p-2 border-2 border-black rounded-sm"
+                      className="focus:outline-none p-2 border-2 border-black rounded-sm"
                       name="name"
                       type="text"
                       placeholder={user.name}
-                      value={user.name}
+                      defaultValue={user.name}
                       onChange={handleNameChange}
                     />
                   </div>
@@ -139,12 +147,15 @@ const EditUser = () => {
                       type="email"
                       name="email"
                       placeholder="Insert your email"
-                      value={user.email}
+                      disabled="on"
+                      defaultValue={user.email}
                       onChange={handleEmailChange}
                     />
                   </div>
                   <div>
-                    <p>Password :</p>
+                    <p>
+                      <span className="text-red-500">*</span>Password :
+                    </p>
                     <input
                       className="focus:outline-none p-2 border-2 border-black rounded-sm"
                       type="password"
@@ -155,14 +166,27 @@ const EditUser = () => {
                   </div>
                   <div>
                     <p>Role :</p>
-                    <input
-                      className="focus:outline-none w-64 p-2 border-2 border-black rounded-sm"
-                      type="number"
-                      name="role"
-                      placeholder="Role"
-                      value={user.role}
-                      onChange={handleRoleChange}
-                    />
+                    <div className="relative">
+                      <select
+                        className="focus:outline-none p-2 border-2 border-black rounded-sm w-full"
+                        name="role"
+                        id="role"
+                        onChange={handleRoleChange}
+                      >
+                        {user.role === 1 ? (
+                          <>
+                            <option value="1">Admin</option>
+                            <option value="2">Operator</option>
+                          </>
+                        ) : (
+                          <>
+                            <option value="2">Operator</option>
+                            <option value="1">Admin</option>
+                          </>
+                        )}
+                      </select>
+                      <FiChevronDown className="absolute text-black right-2 top-4" />
+                    </div>
                   </div>
                 </div>
               </div>

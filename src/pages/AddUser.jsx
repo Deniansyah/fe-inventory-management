@@ -4,6 +4,7 @@ import http from "../helpers/http";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
 import { useSelector } from "react-redux";
+import { FiChevronDown } from "react-icons/fi";
 
 const AddUser = () => {
   const currentPath = "/users";
@@ -94,16 +95,16 @@ const AddUser = () => {
                       Picture
                     </td>
                     <td className="py-2 px-4 bg-gray-100 border-b font-bold">
-                      Name
+                      <span className="text-red-500">*</span>Name
                     </td>
                     <td className="py-2 px-4 bg-gray-100 border-b font-bold">
-                      Email
+                      <span className="text-red-500">*</span>Email
                     </td>
                     <td className="py-2 px-4 bg-gray-100 border-b font-bold">
-                      Password
+                      <span className="text-red-500">*</span>Password
                     </td>
                     <td className="py-2 px-4 bg-gray-100 border-b font-bold">
-                      Role
+                      <span className="text-red-500">*</span>Role
                     </td>
                   </tr>
                 </thead>
@@ -123,7 +124,7 @@ const AddUser = () => {
                         name="name"
                         onChange={handleNameChange}
                         type="text"
-                        placeholder="Insert your username"
+                        placeholder="Insert your fullname"
                       />
                     </td>
                     <td className="py-2 px-4 border-b">
@@ -132,7 +133,7 @@ const AddUser = () => {
                         type="text"
                         name="email"
                         onChange={handleEmailChange}
-                        placeholder="Insert your email"
+                        placeholder="Insert your email address"
                       />
                     </td>
                     <td className="py-2 px-4 border-b">
@@ -145,13 +146,21 @@ const AddUser = () => {
                       />
                     </td>
                     <td className="py-2 px-4 border-b">
-                      <input
-                        className="focus:outline-none w-56"
-                        type="number"
-                        name="role"
-                        onChange={handleRoleChange}
-                        placeholder="1 for Admin & 2 for Operator"
-                      />
+                      <div className="relative">
+                        <select
+                          className="focus:outline-none border border-gray-300  p-2 my-1 rounded-md pr-9 pl-3"
+                          name="role"
+                          id="role"
+                          onChange={handleRoleChange}
+                        >
+                          <option className="hidden">
+                            --- Select role ---
+                          </option>
+                          <option value="1">Admin</option>
+                          <option value="2">Operator</option>
+                        </select>
+                        <FiChevronDown className="absolute text-gray-400 right-2 top-4" />
+                      </div>
                     </td>
                   </tr>
                 </tbody>
@@ -160,10 +169,10 @@ const AddUser = () => {
                 disabled={isButtonDisabled}
                 type="submit"
                 className={
-                    isButtonDisabled
-                      ? "bg-gray-500 py-2 px-3 rounded-md text-white w-fit mt-5"
-                      : "bg-[#101540] py-2 px-3 rounded-md text-white w-fit mt-5"
-                  }
+                  isButtonDisabled
+                    ? "bg-gray-500 py-2 px-3 rounded-md text-white w-fit mt-5"
+                    : "bg-[#101540] py-2 px-3 rounded-md text-white w-fit mt-5"
+                }
               >
                 Add New User
               </button>

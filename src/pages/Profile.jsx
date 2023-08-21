@@ -116,7 +116,10 @@ const Profile = () => {
                       className="h-60 w-60 rounded-full border"
                     />
                   )}
-                  <span onClick={() => setHidden(true)} className="flex justify-center items-center gap-1">
+                  <span
+                    onClick={() => setHidden(true)}
+                    className="flex justify-center items-center gap-1 cursor-pointer"
+                  >
                     <FiEdit />
                     <p>Edit Picture</p>
                   </span>
@@ -154,7 +157,9 @@ const Profile = () => {
                     />
                   </div>
                   <div>
-                    <p>Password :</p>
+                    <p>
+                      <span className="text-red-500">*</span>Password :
+                    </p>
                     <input
                       className="focus:outline-none w-64 p-2 border-2 border-black rounded-sm"
                       type="password"

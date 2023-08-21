@@ -110,7 +110,9 @@ const StockIn = () => {
             <div className="bg-white w-full p-5 flex flex-col gap-6">
               <div className="relative">
                 <div className="flex flex-col">
-                  <label>Product :</label>
+                  <label>
+                    <span className="text-red-500">*</span>Product :
+                  </label>
                   <input
                     className="focus:outline-none w-64 p-2 border-2 border-black rounded-sm"
                     name="product"
@@ -137,7 +139,9 @@ const StockIn = () => {
               </div>
               <div className="flex gap-5">
                 <div>
-                  <p>Date :</p>
+                  <p>
+                    <span className="text-red-500">*</span>Date :
+                  </p>
                   <input
                     className="focus:outline-none w-64 p-2 border-2 border-black rounded-sm"
                     name="date"
@@ -146,7 +150,9 @@ const StockIn = () => {
                   />
                 </div>
                 <div>
-                  <p>Quantity :</p>
+                  <p>
+                    <span className="text-red-500">*</span>Quantity :
+                  </p>
                   <input
                     className="focus:outline-none w-64 p-2 border-2 border-black rounded-sm"
                     name="qty"
@@ -157,7 +163,9 @@ const StockIn = () => {
                 </div>
               </div>
               <div className="flex flex-col">
-                <label>Remark :</label>
+                <label>
+                  <span className="text-red-500">*</span>Remark :
+                </label>
                 <textarea
                   className="focus:outline-none p-2 border-2 border-black rounded-sm"
                   name="remark"

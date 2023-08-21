@@ -87,13 +87,13 @@ const AddProduct = () => {
                       Picture
                     </td>
                     <td className="py-2 px-4 bg-gray-100 border-b font-bold">
-                      Name
+                      <span className="text-red-500">*</span>Name
                     </td>
                     <td className="py-2 px-4 bg-gray-100 border-b font-bold">
-                      Description
+                      <span className="text-red-500">*</span>Description
                     </td>
                     <td className="py-2 px-4 bg-gray-100 border-b font-bold">
-                      Price
+                      <span className="text-red-500">*</span>Price
                     </td>
                   </tr>
                 </thead>
