@@ -63,7 +63,11 @@ const AddUser = () => {
       history.push("/users");
       console.log(data);
     } catch (err) {
-      alert(err.message);
+      if (err.response) {
+        alert(err.response.data.result.message);
+      }else{
+        alert(err.message);
+      }
       console.log(err);
       throw err;
     }
