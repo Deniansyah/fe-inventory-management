@@ -1,6 +1,8 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+const urlBackend = process.env.REACT_APP_URL_BACKEND;
+
 const initialState = {
   data: null,
   role: null,
@@ -14,13 +16,10 @@ export const loginThunk = createAsyncThunk(
   "login/request",
   async ({ email, password, cb }) => {
     try {
-      const response = await axios.post(
-        `${process.env.REACT_APP_URL_BACKEND}/auth/login`,
-        {
-          email,
-          password,
-        }
-      );
+      const response = await axios.post(`${urlBackend}/auth/login`, {
+        email,
+        password,
+      });
       cb();
       return response.data.result;
     } catch (error) {
