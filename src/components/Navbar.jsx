@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
 
 const Navbar = () => {
-  const urlBackend = process.env.REACT_APP_URL_BACKEND;
   const { name } = useSelector((state) => state.auth);
   const token = useSelector((state) => state.auth.data);
   const { id } = jwt_decode(token);
@@ -14,19 +13,18 @@ const Navbar = () => {
   const isAdmin = useSelector((state) => state.auth.role)
 
   useEffect(() => {
+    const getUser = async () => {
+      try {
+        const response = await http(token).get(
+          `/${isAdmin === 1 ? "users" : "users-operator"}/${id}`
+        );
+        setUser(response.data.results);
+      } catch (error) {
+        setUser({});
+      }
+    };
     getUser();
-  }, []);
-
-  const getUser = async () => {
-    try {
-      const response = await http(token).get(
-        `${urlBackend}/${isAdmin === 1 ? "users" : "users-operator"}/${id}`
-      );
-      setUser(response.data.results);
-    } catch (error) {
-      setUser({});
-    }
-  };
+  }, [id, isAdmin, token]);
 
   return (
     <div className="fixed right-0 left-0 z-50 flex p-4 bg-white">

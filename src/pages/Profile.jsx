@@ -5,9 +5,7 @@ import http from "../helpers/http";
 import jwt_decode from "jwt-decode";
 import { useSelector } from "react-redux";
 import { useState, useEffect } from "react";
-import {
-  FiEdit,
-} from "react-icons/fi";
+import { FiEdit } from "react-icons/fi";
 
 const Profile = () => {
   const currentPath = window.location.pathname;
@@ -22,8 +20,18 @@ const Profile = () => {
   const [hidden, setHidden] = useState(false)
 
   useEffect(() => {
+    const getUser = async () => {
+      try {
+        const response = await http(token).get(
+          `/${isAdmin === 1 ? "users" : "users-operator"}/${id}`
+        );
+        setUser(response.data.results);
+      } catch (error) {
+        setUser({});
+      }
+    };
     getUser();
-  }, []);
+  }, [id, isAdmin, token]);
 
   const handlePictureChange = (event) => {
     setPicture(event.target.files[0]);
@@ -41,19 +49,6 @@ const Profile = () => {
     setPassword(event.target.value);
   };
 
-  const getUser = async () => {
-    try {
-      const response = await http(token).get(
-        `${process.env.REACT_APP_URL_BACKEND}/${
-          isAdmin === 1 ? "users" : "users-operator"
-        }/${id}`
-      );
-      setUser(response.data.results);
-    } catch (error) {
-      setUser({});
-    }
-  };
-
   const updateUser = async (event) => {
     event.preventDefault();
     const formData = new FormData();
@@ -67,7 +62,7 @@ const Profile = () => {
 
     try {
       const data = await http(token).patch(
-        `${process.env.REACT_APP_URL_BACKEND}/${
+        `/${
           isAdmin === 1 ? "users" : "users-operator"
         }/${id}`,
         formData,

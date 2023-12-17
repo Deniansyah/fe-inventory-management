@@ -55,7 +55,7 @@ const Users = () => {
   const deleteUser = async (id) => {
     try {
       const response = await http(token).delete(
-        `${process.env.REACT_APP_URL_BACKEND}/users/${id}`
+        `/users/${id}`
       );
       alert("delete user succes");
       setDel(true);
@@ -225,7 +225,7 @@ const Users = () => {
         {/* side navbar */}
         <SideBar path={currentPath} />
         {/* Main Section */}
-        <div className="p-10 ml-24 mt-16 w-full ">
+        <div className="p-10 ml-24 pt-24 w-full min-h-screen">
           <h1 className="text-3xl font-bold mb-5">Management Users</h1>
           <div className="bg-white w-full min-h-[70%] p-5 flex flex-col gap-6">
             <Link

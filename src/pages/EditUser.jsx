@@ -26,19 +26,16 @@ const EditUser = () => {
   const id = parts[2];
 
   useEffect(() => {
+    const getUser = async () => {
+      try {
+        const response = await http(token).get(`/users/${id}`);
+        setUser(response.data.results);
+      } catch (error) {
+        setUser({});
+      }
+    };
     getUser();
-  }, []);
-
-  const getUser = async () => {
-    try {
-      const response = await http(token).get(
-        `${process.env.REACT_APP_URL_BACKEND}/users/${id}`
-      );
-      setUser(response.data.results);
-    } catch (error) {
-      setUser({});
-    }
-  };
+  }, [id, token]);
 
   const handlePictureChange = (event) => {
     setPicture(event.target.files[0]);
@@ -74,7 +71,7 @@ const EditUser = () => {
 
     try {
       const data = await http(token).patch(
-        `${process.env.REACT_APP_URL_BACKEND}/users/${id}`,
+        `/users/${id}`,
         formData,
         {
           headers: {

@@ -24,19 +24,16 @@ const EditProduct = () => {
   const id = parts[2];
 
   useEffect(() => {
+    const getProduct = async () => {
+      try {
+        const response = await http(token).get(`/product/${id}`);
+        setProduct(response.data.results);
+      } catch (error) {
+        setProduct({});
+      }
+    };
     getProduct();
-  }, []);
-
-  const getProduct = async () => {
-    try {
-      const response = await http(token).get(
-        `${process.env.REACT_APP_URL_BACKEND}/product/${id}`
-      );
-      setProduct(response.data.results);
-    } catch (error) {
-      setProduct({});
-    }
-  };
+  }, [id, token]);
 
   const handlePictureChange = (event) => {
     setPicture(event.target.files[0]);
@@ -67,7 +64,7 @@ const EditProduct = () => {
 
     try {
       const data = await http(token).patch(
-        `${process.env.REACT_APP_URL_BACKEND}/product/${id}`,
+        `/product/${id}`,
         formData,
         {
           headers: {

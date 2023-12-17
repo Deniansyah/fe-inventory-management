@@ -1,6 +1,5 @@
 import Navbar from "../components/Navbar";
 import SideBar from "../components/SideBar";
-import LoadingSpinner from "../components/LoadingSpinner"
 import http from "../helpers/http";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
@@ -9,7 +8,6 @@ import { useSelector } from "react-redux";
 const AddProduct = () => {
   const currentPath = "/product";
   const token = useSelector((state) => state.auth.data);
-  const isLoading = useSelector((state) => state.product.isLoading)
   const history = useHistory();
   
   const [picture, setPicture] = useState(null);
@@ -46,7 +44,7 @@ const AddProduct = () => {
 
     try {
       const data = await http(token).post(
-        `${process.env.REACT_APP_URL_BACKEND}/product`,
+        `/product`,
         formData,
         {
           headers: {
@@ -152,7 +150,6 @@ const AddProduct = () => {
           </div>
         </div>
       </div>
-      {isLoading ? <LoadingSpinner /> : null}
     </div>
   );
 }

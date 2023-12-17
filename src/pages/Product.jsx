@@ -53,7 +53,7 @@ const Product = () => {
   const deleteProduct = async (id) => {
     try {
       const response = await http(token).delete(
-        `${process.env.REACT_APP_URL_BACKEND}/product/${id}`
+        `/product/${id}`
       );
       alert("delete product succes");
       setDel(true);

@@ -6,7 +6,7 @@ const http = (token) => {
     headers.authorization = "Bearer " + token;
   }
   const instance = axios.create({
-    baseURL: process.env.REACT_APP_URL_BACKEND,
+    baseURL: import.meta.env.VITE_URL_BACKEND,
     headers,
   });
   return instance;

@@ -51,7 +51,7 @@ const AddUser = () => {
 
     try {
       const data = await http(token).post(
-        `${process.env.REACT_APP_URL_BACKEND}/users`,
+        `/users`,
         formData,
         {
           headers: {
