@@ -18,3 +18,16 @@ export const getStockThunk = createAsyncThunk(
     }
   }
 );
+
+export const updateStockThunk = createAsyncThunk(
+  "updateStock/request",
+  async ({ formData, id }, { getState }) => {
+    try {
+      const token = getState().auth.data;
+      const data = await http(token).patch(`/edit-stock/${id}`, formData);
+      return data;
+    } catch (err) {
+      throw err.response.data.message;
+    }
+  }
+);

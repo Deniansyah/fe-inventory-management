@@ -1,15 +1,15 @@
 import Navbar from "../components/Navbar";
 import SideBar from "../components/SideBar";
 import productDefault from "../assets/image/product/productDefault.jpg";
-import http from "../helpers/http";
+import { productAction } from "../store/product/reducer";
 import { useHistory } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { FiEdit } from "react-icons/fi";
 
 const EditProduct = () => {
   const currentPath = "/product";
-  const token = useSelector((state) => state.auth.data);
+  const dispatch = useDispatch()
   const history = useHistory();
 
   const [product, setProduct] = useState({})
@@ -26,14 +26,14 @@ const EditProduct = () => {
   useEffect(() => {
     const getProduct = async () => {
       try {
-        const response = await http(token).get(`/product/${id}`);
-        setProduct(response.data.results);
+        const response = await dispatch(productAction.getProductByIdThunk(id)).unwrap()
+        setProduct(response);
       } catch (error) {
         setProduct({});
       }
     };
     getProduct();
-  }, [id, token]);
+  }, [id, dispatch]);
 
   const handlePictureChange = (event) => {
     setPicture(event.target.files[0]);
@@ -62,16 +62,13 @@ const EditProduct = () => {
       formData.append("picture", picture);
     }
 
+    const wrapData = {
+      formData: formData,
+      id: id,
+    };
+
     try {
-      const data = await http(token).patch(
-        `/product/${id}`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const data = await dispatch(productAction.updateProductThunk(wrapData)).unwrap()
       alert("Edit product succes");
       history.push("/product");
       console.log(data);

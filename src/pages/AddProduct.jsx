@@ -1,13 +1,13 @@
 import Navbar from "../components/Navbar";
 import SideBar from "../components/SideBar";
-import http from "../helpers/http";
+import { productAction } from "../store/product/reducer";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const AddProduct = () => {
   const currentPath = "/product";
-  const token = useSelector((state) => state.auth.data);
+  const dispatch = useDispatch();
   const history = useHistory();
   
   const [picture, setPicture] = useState(null);
@@ -43,15 +43,7 @@ const AddProduct = () => {
     }
 
     try {
-      const data = await http(token).post(
-        `/product`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const data = await dispatch(productAction.createProductThunk(formData)).unwrap()
       alert("add product succes");
       history.push("/product")
       console.log(data);

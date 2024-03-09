@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { initialState } from "./initialState";
-import { getListUsersThunk } from "./actions";
+import { getListUsersThunk, createUserThunk } from "./actions";
 
 const usersSlice = createSlice({
   name: "users",
@@ -28,11 +28,17 @@ const usersSlice = createSlice({
         errorMessage: action.error.message,
       };
     })
+    builder.addCase(createUserThunk.fulfilled, (state) => {
+      return {
+        ...state,
+      };
+    });
   },
 });
 
 export const usersAction = {
   ...usersSlice.actions,
   getListUsersThunk,
+  createUserThunk
 }
 export const usersReducer = usersSlice.reducer;

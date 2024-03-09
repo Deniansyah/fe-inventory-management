@@ -1,16 +1,15 @@
 import Navbar from "../components/Navbar";
 import SideBar from "../components/SideBar";
-import http from "../helpers/http";
 import { useHistory } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { productAction } from "../store/product/reducer";
+import { stockAction } from "../store/stock/reducer";
 import { useDispatch, useSelector } from "react-redux";
 
 const EditStock = () => {
   const currentPath = "/stock";
   const dispatch = useDispatch();
   const history = useHistory();
-  const token = useSelector((state) => state.auth.data);
   const product = useSelector((state) => state.product);
   const data = product.data.results;
   const [productVal, setProductVal] = useState("");
@@ -76,11 +75,13 @@ const EditStock = () => {
       remark: remark,
     };
 
+    const wrapData = {
+      formData: formData,
+      id: idProduct
+    }
+
     try {
-      const data = await http(token).patch(
-        `/edit-stock/${idProduct}`,
-        formData
-      );
+      const data = await dispatch(stockAction.updateStockThunk(wrapData)).unwrap()
       alert("Add stock to product succes");
       history.push("/stock");
       console.log(data);

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { initialState } from "./initialState";
-import { getStockThunk } from "./actions";
+import { getStockThunk, updateStockThunk } from "./actions";
 
 
 const stockSlice = createSlice({
@@ -29,11 +29,17 @@ const stockSlice = createSlice({
         errorMessage: action.error.message,
       };
     });
+    builder.addCase(updateStockThunk.fulfilled, (state) => {
+      return {
+        ...state,
+      };
+    });
   },
 });
 
 export const stockAction = {
   ...stockSlice.actions,
   getStockThunk,
+  updateStockThunk
 };
 export const stockReducer = stockSlice.reducer;

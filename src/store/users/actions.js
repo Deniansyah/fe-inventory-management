@@ -17,5 +17,22 @@ export const getListUsersThunk = createAsyncThunk(
   }
 );
 
+export const createUserThunk = createAsyncThunk(
+  "createUser/request",
+  async (formData, {getState}) => {
+    try {
+      const token = getState().auth.data;
+      const data = await http(token).post(`/users`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      return data
+    } catch (err) {
+      throw err.response.data.message;
+    }
+  }
+)
+
 
 

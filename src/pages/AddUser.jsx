@@ -1,14 +1,14 @@
 import Navbar from "../components/Navbar";
 import SideBar from "../components/SideBar";
-import http from "../helpers/http";
+import { usersAction } from "../store/users/reducer";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { FiChevronDown } from "react-icons/fi";
 
 const AddUser = () => {
   const currentPath = "/users";
-  const token = useSelector((state) => state.auth.data);
+  const dispatch = useDispatch()
   const history = useHistory();
 
   const [picture, setPicture] = useState(null);
@@ -50,15 +50,7 @@ const AddUser = () => {
     }
 
     try {
-      const data = await http(token).post(
-        `/users`,
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+      const data = await dispatch(usersAction.createUserThunk(formData)).unwrap()
       alert("add user succes");
       history.push("/users");
       console.log(data);
