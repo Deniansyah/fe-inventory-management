@@ -7,7 +7,7 @@ import { authAction } from "../store/auth/reducer";
 
 const Login = () => {
   const [showAlert, setShowAlert] = useState(false);
-  const isError = useSelector((state) => state.auth.isError)
+  const isError = useSelector((state) => state.auth.isError);
   const message = useSelector((state) => state.auth.errorMessage);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,17 +31,17 @@ const Login = () => {
       setShowAlert(true);
     } else {
       const cb = () => {
-        history.push("/home")
+        history.push("/home");
       };
 
       if (isError) {
-        setShowAlert(true)
+        setShowAlert(true);
         setTimeout(() => {
           setShowAlert(false);
         }, 3000);
       }
 
-      dispatch(authAction.loginThunk({ email, password, cb}));
+      dispatch(authAction.loginThunk({ email, password, cb }));
     }
   };
 
@@ -98,6 +98,16 @@ const Login = () => {
         </div>
       </div>
       <div className="hidden md:block md:relative md:basis-3/5">
+        <div className="absolute top-12 left-24 border-2 border-warning rounded p-3 text-white">
+          <p className="text-sm mb-2">
+            Untuk mencoba fitur admin login dengan email : admin@mail.com dan
+            password : 12345678
+          </p>
+          <p className="text-sm">
+            Untuk mencoba fitur operator login dengan email : operator@mail.com
+            dan password : 12345678
+          </p>
+        </div>
         <img
           className="absolute md:top-36 md:mr-3 lg:top-24 lg:p-10 xl:w-[80%] xl:right-0"
           src={cover}
